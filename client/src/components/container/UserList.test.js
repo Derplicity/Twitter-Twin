@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import UserList from './UserList';
 
-import { findByTestId } from '../../testUtils';
+import { findByTestId, checkProps } from '../../testUtils';
 
 const setUp = (props = {}) => {
 	const component = shallow(<UserList.WrappedComponent {...props} />);
@@ -10,6 +10,25 @@ const setUp = (props = {}) => {
 };
 
 describe('<UserList>', () => {
+	describe('Check PropTypes', () => {
+		it('should not throw warning', () => {
+			const expectedProps = {
+				list: [
+					{
+						name: 'John',
+						screen_name: 'johnsmith',
+						profile_image_url_https:
+							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
+						verified: true,
+					},
+				],
+				count: 3,
+			};
+
+			expect(checkProps(UserList, expectedProps)).toBeUndefined();
+		});
+	});
+
 	describe('With Valid Props', () => {
 		let component;
 
