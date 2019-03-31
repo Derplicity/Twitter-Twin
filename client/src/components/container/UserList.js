@@ -19,9 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-	list: [
-		{ name: '', screen_name: '', profile_image_url_https: '', verified: false },
-	],
+	list: null,
 	count: 0,
 };
 
@@ -55,6 +53,7 @@ class UserListContainer extends Component {
 					onUserClick={this.onUserClick}
 					onFollowClick={this.onFollowClick}
 					key={item.name}
+					data-testId="userCellComponent"
 				/>,
 			),
 		);
@@ -65,11 +64,15 @@ class UserListContainer extends Component {
 	render() {
 		const { list, count } = this.props;
 
+		if (!list || list.length === 0 || !count || count === 0) {
+			return null;
+		}
+
 		return (
-			<UserList.Wrapper>
+			<UserList.Wrapper data-testId="userListComponent">
 				<UserList>{this.getUserCells(list, count)}</UserList>
 				<UserList.Interactive transitionto="blueGrey__light">
-					<UserList.Button to="/i/who_to_follow">
+					<UserList.Button to="/i/who_to_follow" data-testId="userListLink">
 						<Text color="blue">Show more</Text>
 					</UserList.Button>
 				</UserList.Interactive>
