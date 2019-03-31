@@ -9,12 +9,12 @@ export default function() {
 	};
 
 	return (
-		<Footer.Wrapper data-testId="footerComponent">
+		<Footer.Wrapper data-testid="footerComponent">
 			<Footer role="contentinfo">
 				<Text.ExternalLink
 					href="https://twitter.com/tos"
 					target="_blank"
-					data-testId="footerLink"
+					data-testid="footerLink"
 				>
 					<Text small color="grey" decor style={itemStyle}>
 						Terms
@@ -23,7 +23,7 @@ export default function() {
 				<Text.ExternalLink
 					href="https://twitter.com/privacy"
 					target="_blank"
-					data-testId="footerLink"
+					data-testid="footerLink"
 				>
 					<Text small color="grey" decor style={itemStyle}>
 						Privacy policy
@@ -32,7 +32,7 @@ export default function() {
 				<Text.ExternalLink
 					href="https://support.twitter.com/articles/20170514"
 					target="_blank"
-					data-testId="footerLink"
+					data-testid="footerLink"
 				>
 					<Text small color="grey" decor style={itemStyle}>
 						Cookies
@@ -41,7 +41,7 @@ export default function() {
 				<Text.ExternalLink
 					href="https://business.twitter.com/en/help/troubleshooting/how-twitter-ads-work.html"
 					target="_blank"
-					data-testId="footerLink"
+					data-testid="footerLink"
 				>
 					<Text small color="grey" decor style={itemStyle}>
 						Ads info

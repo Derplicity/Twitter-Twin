@@ -53,7 +53,7 @@ class UserListContainer extends Component {
 					onUserClick={this.onUserClick}
 					onFollowClick={this.onFollowClick}
 					key={item.name}
-					data-testId="userCellComponent"
+					data-testid="userCellComponent"
 				/>,
 			),
 		);
@@ -69,10 +69,10 @@ class UserListContainer extends Component {
 		}
 
 		return (
-			<UserList.Wrapper data-testId="userListComponent">
+			<UserList.Wrapper data-testid="userListComponent">
 				<UserList>{this.getUserCells(list, count)}</UserList>
 				<UserList.Interactive transitionto="blueGrey__light">
-					<UserList.Button to="/i/who_to_follow" data-testId="userListLink">
+					<UserList.Button to="/i/who_to_follow" data-testid="userListLink">
 						<Text color="blue">Show more</Text>
 					</UserList.Button>
 				</UserList.Interactive>

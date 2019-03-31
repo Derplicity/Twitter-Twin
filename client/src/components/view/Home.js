@@ -34,7 +34,7 @@ class HomeView extends Component {
 
 		return (
 			<ErrorBoundary>
-				<div style={{ position: 'relative' }}>
+				<div style={{ position: 'relative' }} data-testid="homeComponent">
 					<div
 						style={{
 							backgroundColor: 'rgb(21, 32, 43)',

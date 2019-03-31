@@ -1,19 +1,21 @@
 import { GET_CURRENT_USER, GET_USERS, GET_SUGGESTED_USERS } from './types';
-import localForge from 'localforage';
+import localForage from 'localforage';
+import axios from 'axios';
 
 export const getCurrentUser = () => dispatch => {
-	localForge
+	return localForage
 		.getItem('user')
-		.then(user => {
-			fetch(`/api/users/show?user_id=${user}`)
-				.then(res => res.json())
+		.then(user =>
+			axios
+				.get(`/api/users/show?user_id=${user}`)
+				.then(res => res.data)
 				.then(data =>
 					dispatch({
 						type: GET_CURRENT_USER,
 						payload: data,
 					}),
-				);
-		})
+				),
+		)
 		.catch(console.error);
 };
 
@@ -26,36 +28,40 @@ export const getUsers = q => dispatch => {
 		});
 	}
 
-	localForge
+	return localForage
 		.getItem('user')
-		.then(user => {
-			fetch(
-				`/api/users/search?user_id=${user}&q=${encodeURIComponent(q)}&count=10`,
-			)
-				.then(res => res.json())
+		.then(user =>
+			axios
+				.get(
+					`/api/users/search?user_id=${user}&q=${encodeURIComponent(
+						q,
+					)}&count=10`,
+				)
+				.then(res => res.data)
 				.then(data =>
 					dispatch({
 						type: GET_USERS,
 						payload: data,
 					}),
-				);
-		})
+				),
+		)
 		.catch(console.error);
 };
 
 export const getSuggestedUsers = () => dispatch => {
-	localForge
+	return localForage
 		.getItem('suggested_users')
 		.then(saved => {
 			const current = new Date();
 			if (!saved || !saved.data || current - saved.timestamp > 60000) {
-				return localForge
+				return localForage
 					.getItem('user')
-					.then(user => {
-						fetch(`/api/users/suggestions?user_id=${user}`)
-							.then(res => res.json())
+					.then(user =>
+						axios
+							.get(`/api/users/suggestions?user_id=${user}`)
+							.then(res => res.data)
 							.then(data =>
-								localForge
+								localForage
 									.setItem('suggested_users', {
 										data: data,
 										timestamp: new Date(),
@@ -67,8 +73,8 @@ export const getSuggestedUsers = () => dispatch => {
 										}),
 									)
 									.catch(console.error),
-							);
-					})
+							),
+					)
 					.catch(console.error);
 			}
 

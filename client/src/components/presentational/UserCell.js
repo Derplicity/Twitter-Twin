@@ -1,10 +1,37 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Image from './Image';
 
 import { UserCell, Button, Text, Icon } from '../styles';
 
-export default function({ user, onUserClick, onFollowClick }) {
+const propTypes = {
+	user: PropTypes.shape({
+		name: PropTypes.string.isRequired,
+		screen_name: PropTypes.string.isRequired,
+		verified: PropTypes.bool.isRequired,
+		profile_image_url_https: PropTypes.string.isRequired,
+	}),
+	onUserClick: PropTypes.func.isRequired,
+	onFollowClick: PropTypes.func.isRequired,
+};
+
+const defaultProps = {
+	user: {
+		name: '',
+		screen_name: '',
+		verified: false,
+		profile_image_url_https: '',
+	},
+	onUserClick: () => null,
+	onFollowClick: () => null,
+};
+
+export default function UserCellPresentator({
+	user,
+	onUserClick,
+	onFollowClick,
+}) {
 	const name = user.name;
 	const isVerified = user.verified;
 	const username = user.screen_name;
@@ -15,7 +42,7 @@ export default function({ user, onUserClick, onFollowClick }) {
 			transitionto="blueGrey__light"
 			onClick={e => onUserClick(e, url)}
 		>
-			<UserCell.Wrapper>
+			<UserCell.Wrapper data-testid="userCellComponent">
 				<UserCell>
 					<UserCell.Image>
 						<Image to={url} src={imgsrc} alt={name} isCircle isSmall />
@@ -58,3 +85,6 @@ export default function({ user, onUserClick, onFollowClick }) {
 		</UserCell.Interactive>
 	);
 }
+
+UserCellPresentator.propTypes = propTypes;
+UserCellPresentator.defaultProps = defaultProps;

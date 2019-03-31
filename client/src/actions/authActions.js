@@ -1,8 +1,8 @@
 import { GET_USER_AUTH, SET_USER_AUTH } from './types';
-import localForge from 'localforage';
+import localForage from 'localforage';
 
 export const getUserAuth = () => dispatch => {
-	localForge
+	localForage
 		.getItem('user')
 		.then(user =>
 			dispatch({ type: GET_USER_AUTH, payload: user ? true : false }),
@@ -15,9 +15,9 @@ export const setUserAuth = userAuth => dispatch => {
 
 	if (!success) return dispatch({ type: SET_USER_AUTH, payload: success });
 
-	localForge
+	localForage
 		.setItem('user', _id)
-		.then(() => localForge.getItem('user'))
+		.then(() => localForage.getItem('user'))
 		.then(user => dispatch({ type: SET_USER_AUTH, payload: success }))
 		.catch(console.error);
 };

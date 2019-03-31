@@ -7,21 +7,23 @@ import {
 	ADD_STATUS_ACTION,
 	REMOVE_STATUS_ACTION,
 } from './types';
-import localForge from 'localforage';
+import localForage from 'localforage';
+import axios from 'axios';
 
 export const getHomeTimeline = () => dispatch => {
-	return localForge
+	return localForage
 		.getItem('home_timeline')
 		.then(saved => {
 			const current = new Date();
 			if (!saved || !saved.data || current - saved.timestamp > 60000) {
-				return localForge
+				return localForage
 					.getItem('user')
-					.then(user => {
-						fetch(`/api/statuses/home_timeline?user_id=${user}`)
-							.then(res => res.json())
+					.then(user =>
+						axios
+							.get(`/api/statuses/home_timeline?user_id=${user}`)
+							.then(res => res.data)
 							.then(data =>
-								localForge
+								localForage
 									.setItem('home_timeline', {
 										data: data,
 										timestamp: new Date(),
@@ -33,8 +35,8 @@ export const getHomeTimeline = () => dispatch => {
 										}),
 									)
 									.catch(console.error),
-							);
-					})
+							),
+					)
 					.catch(console.error);
 			}
 
@@ -47,11 +49,12 @@ export const getHomeTimeline = () => dispatch => {
 };
 
 export const getNewHomeTimeline = lastId => dispatch => {
-	return localForge
+	return localForage
 		.getItem('user')
 		.then(user =>
-			fetch(`/api/statuses/home_timeline?user_id=${user}&max_id=${lastId}`)
-				.then(res => res.json())
+			axios
+				.get(`/api/statuses/home_timeline?user_id=${user}&max_id=${lastId}`)
+				.then(res => res.data)
 				.then(data =>
 					dispatch({
 						type: GET_NEW_HOME_TIMELINE,
@@ -68,20 +71,21 @@ export const getUserTimeline = screen_name => dispatch => {
 		type: SET_STATUS_LOADING,
 	});
 
-	return localForge
+	return localForage
 		.getItem(`${screen_name}_timeline`)
 		.then(saved => {
 			const current = new Date();
 			if (!saved || !saved.data || current - saved.timestamp > 1000) {
-				return localForge
+				return localForage
 					.getItem('user')
-					.then(user => {
-						fetch(
-							`/api/statuses/user_timeline?user_id=${user}&screen_name=${screen_name}`,
-						)
-							.then(res => res.json())
+					.then(user =>
+						axios
+							.get(
+								`/api/statuses/user_timeline?user_id=${user}&screen_name=${screen_name}`,
+							)
+							.then(res => res.data)
 							.then(data =>
-								localForge
+								localForage
 									.setItem(`${screen_name}_timeline`, {
 										data: data,
 										timestamp: new Date(),
@@ -93,8 +97,8 @@ export const getUserTimeline = screen_name => dispatch => {
 										}),
 									)
 									.catch(console.error),
-							);
-					})
+							),
+					)
 					.catch(console.error);
 			}
 
@@ -107,13 +111,14 @@ export const getUserTimeline = screen_name => dispatch => {
 };
 
 export const getNewUserTimeline = (screen_name, lastId) => dispatch => {
-	return localForge
+	return localForage
 		.getItem('user')
 		.then(user =>
-			fetch(
-				`/api/statuses/home_timeline?user_id=${user}&screen_name=${screen_name}&max_id=${lastId}`,
-			)
-				.then(res => res.json())
+			axios
+				.get(
+					`/api/statuses/home_timeline?user_id=${user}&screen_name=${screen_name}&max_id=${lastId}`,
+				)
+				.then(res => res.data)
 				.then(data =>
 					dispatch({
 						type: GET_NEW_USER_TIMELINE,
@@ -126,7 +131,7 @@ export const getNewUserTimeline = (screen_name, lastId) => dispatch => {
 };
 
 export const addStatusAction = (type, id) => dispatch => {
-	return localForge
+	return localForage
 		.getItem('user')
 		.then(user => {
 			let url = '';
@@ -135,11 +140,12 @@ export const addStatusAction = (type, id) => dispatch => {
 			} else if (type === 'like') {
 				url = `/api/statuses/like?user_id=${user}&id=${id}`;
 			}
-			return fetch(url)
-				.then(res => res.json())
+			return axios
+				.get(url)
+				.then(res => res.data)
 				.then(data => {
 					const resData = type === 'retweet' ? data.retweeted_status : data;
-					return localForge
+					return localForage
 						.getItem('home_timeline')
 						.then(({ data: savedData, timestamp }) => {
 							const newData = savedData;
@@ -148,7 +154,7 @@ export const addStatusAction = (type, id) => dispatch => {
 							return { data: newData, timestamp: timestamp };
 						})
 						.then(updatedData =>
-							localForge.setItem('home_timeline', updatedData),
+							localForage.setItem('home_timeline', updatedData),
 						)
 						.then(({ data: payload }) =>
 							dispatch({
@@ -163,7 +169,7 @@ export const addStatusAction = (type, id) => dispatch => {
 };
 
 export const removeStatusAction = (type, id) => dispatch => {
-	return localForge
+	return localForage
 		.getItem('user')
 		.then(user => {
 			let url = '';
@@ -172,12 +178,13 @@ export const removeStatusAction = (type, id) => dispatch => {
 			} else if (type === 'unlike') {
 				url = `/api/statuses/unlike?user_id=${user}&id=${id}`;
 			}
-			return fetch(url)
-				.then(res => res.json())
+			return axios
+				.get(url)
+				.then(res => res.data)
 				.then(data => {
 					const resData = data;
 					if (type === 'unretweet') resData.retweeted = false;
-					return localForge
+					return localForage
 						.getItem('home_timeline')
 						.then(({ data: savedData, timestamp }) => {
 							const newData = savedData;
@@ -186,7 +193,7 @@ export const removeStatusAction = (type, id) => dispatch => {
 							return { data: newData, timestamp: timestamp };
 						})
 						.then(updatedData =>
-							localForge.setItem('home_timeline', updatedData),
+							localForage.setItem('home_timeline', updatedData),
 						)
 						.then(({ data: payload }) =>
 							dispatch({

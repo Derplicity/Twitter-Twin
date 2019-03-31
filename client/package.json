@@ -9,13 +9,14 @@
 		"@fortawesome/free-solid-svg-icons": "^5.7.2",
 		"@fortawesome/react-fontawesome": "^0.1.4",
 		"@microlink/react": "^3.0.5",
+		"axios": "^0.18.0",
 		"lethargy": "^1.0.4",
 		"localforage": "^1.7.3",
-		"react": "^16.8.3",
+		"react": "^16.8.6",
 		"react-dom": "^16.8.3",
 		"react-infinite-scroller": "^1.2.4",
-		"react-redux": "^6.0.1",
-		"react-router-dom": "^4.3.1",
+		"react-redux": "^7.0.0-beta.0",
+		"react-router-dom": "^5.0.0",
 		"react-scripts": "2.1.5",
 		"react-visibility-sensor": "^5.0.2",
 		"redux": "^4.0.1",
@@ -43,6 +44,8 @@
 		"check-prop-types": "^1.1.2",
 		"enzyme": "^3.9.0",
 		"enzyme-adapter-react-16": "^1.11.2",
-		"jest-enzyme": "^7.0.2"
+		"jest-enzyme": "^7.0.2",
+		"moxios": "^0.4.0",
+		"redux-devtools-extension": "^2.13.8"
 	}
 }

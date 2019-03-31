@@ -11,10 +11,10 @@ import storeConfig from './storeConfig';
 const store = storeConfig();
 
 const App = () => (
-	<Provider store={store}>
+	<Provider store={store} data-testid="appComponent">
 		<Router>
 			<Switch>
-				<Route path='/' exact component={Landing} />
+				<Route path="/" exact component={Landing} />
 				<Route component={Page} />
 			</Switch>
 		</Router>

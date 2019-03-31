@@ -1,5 +1,6 @@
 import { GET_TRENDS } from './types';
-import localForge from 'localforage';
+import localForage from 'localforage';
+import axios from 'axios';
 
 export const getTrends = q => dispatch => {
 	const hasHT = q.trim().startsWith('#') ? true : false;
@@ -12,17 +13,20 @@ export const getTrends = q => dispatch => {
 		});
 	}
 
-	localForge
+	localForage
 		.getItem('user')
-		.then(user => {
-			fetch(`/api/trends/place?user_id=${user}&q=${encodeURIComponent(q)}&id=1`)
-				.then(res => res.json())
+		.then(user =>
+			axios
+				.get(
+					`/api/trends/place?user_id=${user}&q=${encodeURIComponent(q)}&id=1`,
+				)
+				.then(res => res.data)
 				.then(data =>
 					dispatch({
 						type: GET_TRENDS,
 						payload: data,
 					}),
-				);
-		})
+				),
+		)
 		.catch(console.error);
 };
