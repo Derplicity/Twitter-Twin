@@ -19,8 +19,8 @@ export const getCurrentUser = () => dispatch => {
 		.catch(console.error);
 };
 
-export const getUsers = q => dispatch => {
-	q = q.replace(/[^0-9a-z]/gi, '');
+export const getUsers = query => dispatch => {
+	const q = !!query ? query.replace(/[^0-9a-z]/gi, '') : '';
 	if (q.trim().length === 0) {
 		return dispatch({
 			type: GET_USERS,

@@ -2,7 +2,8 @@ import { GET_TRENDS } from './types';
 import localForage from 'localforage';
 import axios from 'axios';
 
-export const getTrends = q => dispatch => {
+export const getTrends = query => dispatch => {
+	let q = !!query ? query : '';
 	const hasHT = q.trim().startsWith('#') ? true : false;
 	q = q.replace(/[^0-9a-z]/gi, '');
 	q = hasHT ? `#${q}` : q;
@@ -13,7 +14,7 @@ export const getTrends = q => dispatch => {
 		});
 	}
 
-	localForage
+	return localForage
 		.getItem('user')
 		.then(user =>
 			axios

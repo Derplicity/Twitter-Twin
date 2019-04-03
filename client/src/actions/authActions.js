@@ -2,7 +2,7 @@ import { GET_USER_AUTH, SET_USER_AUTH } from './types';
 import localForage from 'localforage';
 
 export const getUserAuth = () => dispatch => {
-	localForage
+	return localForage
 		.getItem('user')
 		.then(user =>
 			dispatch({ type: GET_USER_AUTH, payload: user ? true : false }),
@@ -15,7 +15,7 @@ export const setUserAuth = userAuth => dispatch => {
 
 	if (!success) return dispatch({ type: SET_USER_AUTH, payload: success });
 
-	localForage
+	return localForage
 		.setItem('user', _id)
 		.then(() => localForage.getItem('user'))
 		.then(user => dispatch({ type: SET_USER_AUTH, payload: success }))
