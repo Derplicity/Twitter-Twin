@@ -1,6 +1,9 @@
 import reducer from './statusReducer';
 import * as types from '../actions/types';
 
+/* ********************
+    STATUS REDUCER
+******************** */
 describe('statusReducer', () => {
 	it('should return initial state', () => {
 		expect(reducer(undefined, {})).toEqual({
@@ -11,6 +14,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+    SET STATUS LOADING
+  ******************** */
 	describe('SET_STATUS_LOADING', () => {
 		it('should handle action', () => {
 			const action = {
@@ -31,6 +37,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+     GET HOME TIMELINE
+  ******************** */
 	describe('GET_HOME_TIMELINE', () => {
 		it('should handle action', () => {
 			const action = {
@@ -56,6 +65,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+   GET NEW HOME TIMELINE
+  ******************** */
 	describe('GET_NEW_HOME_TIMELINE', () => {
 		it('should handle action', () => {
 			const action = {
@@ -86,6 +98,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+     GET USER TIMELINE
+  ******************** */
 	describe('GET_USER_TIMELINE', () => {
 		it('should handle action', () => {
 			const action = {
@@ -111,6 +126,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+   GET NEW USER TIMELINE
+  ******************** */
 	describe('GET_NEW_USER_TIMELINE', () => {
 		it('should handle action', () => {
 			const action = {
@@ -141,6 +159,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+     ADD STATUS ACTION
+  ******************** */
 	describe('ADD_STATUS_ACTION', () => {
 		it('should handle action', () => {
 			const action = {
@@ -162,6 +183,9 @@ describe('statusReducer', () => {
 		});
 	});
 
+	/* ********************
+   REMOVE STATUS ACTION
+  ******************** */
 	describe('REMOVE_STATUS_ACTION', () => {
 		it('should handle action', () => {
 			const action = {

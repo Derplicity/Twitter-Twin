@@ -1,6 +1,9 @@
 import reducer from './userReducer';
 import * as types from '../actions/types';
 
+/* ********************
+    USER REDUCER
+******************** */
 describe('userReducer', () => {
 	it('should return initial state', () => {
 		expect(reducer(undefined, {})).toEqual({
@@ -10,6 +13,9 @@ describe('userReducer', () => {
 		});
 	});
 
+	/* ********************
+      GET CURRENT USER
+  ******************** */
 	describe('GET_CURRENT_USER', () => {
 		it('should handle action', () => {
 			const action = {
@@ -31,6 +37,9 @@ describe('userReducer', () => {
 		});
 	});
 
+	/* ********************
+      GET USERS
+  ******************** */
 	describe('GET_USERS', () => {
 		it('should handle action', () => {
 			const action = {
@@ -52,6 +61,9 @@ describe('userReducer', () => {
 		});
 	});
 
+	/* ********************
+    GET SUGGESTED USERS
+  ******************** */
 	describe('GET_SUGGESTED_USERS', () => {
 		it('should handle action', () => {
 			const action = {

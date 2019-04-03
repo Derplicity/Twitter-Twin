@@ -1,6 +1,9 @@
 import reducer from './trendReducer';
 import * as types from '../actions/types';
 
+/* ********************
+    TREND REDUCER
+******************** */
 describe('trendReducer', () => {
 	it('should return initial state', () => {
 		expect(reducer(undefined, {})).toEqual({
@@ -8,6 +11,9 @@ describe('trendReducer', () => {
 		});
 	});
 
+	/* ********************
+        GET TRENDS
+  ******************** */
 	describe('GET_TRENDS', () => {
 		it('should handle action', () => {
 			const action = {
