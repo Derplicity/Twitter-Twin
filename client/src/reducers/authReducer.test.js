@@ -1,25 +1,52 @@
-import authReducer from './authReducer';
-import { GET_USER_AUTH, SET_USER_AUTH } from '../actions/types';
+import reducer from './authReducer';
+import * as types from '../actions/types';
 
-describe('Auth Reducer', () => {
-	it('should return default state', () => {
-		const initialState = {
+describe('userReducer', () => {
+	it('should return initial state', () => {
+		expect(reducer(undefined, {})).toEqual({
 			isAuthenticated: null,
-		};
-		const newState = authReducer(undefined, {});
-		expect(newState).toEqual(initialState);
+		});
 	});
 
-	it('should return new state if receiving type', () => {
-		const auth = true;
-		const expectedState = {
-			isAuthenticated: auth,
-		};
-		const newState = authReducer(undefined, {
-			type: GET_USER_AUTH,
-			payload: auth,
-		});
+	describe('GET_USER_AUTH', () => {
+		it('should handle action', () => {
+			const action = {
+				type: types.GET_USER_AUTH,
+				payload: true,
+			};
 
-		expect(newState).toEqual(expectedState);
+			const expectedState = {
+				isAuthenticated: true,
+			};
+
+			expect(reducer({}, action)).toEqual(expectedState);
+
+			const prevState = {
+				isAuthenticated: false,
+			};
+
+			expect(reducer(prevState, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('SET_USER_AUTH', () => {
+		it('should handle action', () => {
+			const action = {
+				type: types.SET_USER_AUTH,
+				payload: true,
+			};
+
+			const expectedState = {
+				isAuthenticated: true,
+			};
+
+			expect(reducer({}, action)).toEqual(expectedState);
+
+			const prevState = {
+				isAuthenticated: false,
+			};
+
+			expect(reducer(prevState, action)).toEqual(expectedState);
+		});
 	});
 });
