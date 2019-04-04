@@ -56,6 +56,7 @@ describe('<Routes />', () => {
 			it('should call getUserAuth()', () => {
 				const getUserAuth = () => passedProps.getUserAuth.mock.calls.length;
 
+				// Already called when shallow render was created
 				expect(getUserAuth()).toEqual(1);
 				wrapper.instance().componentDidMount();
 				expect(getUserAuth()).toEqual(2);
@@ -73,9 +74,14 @@ describe('<Routes />', () => {
 			it('should render <Page /> router based on props', () => {
 				const pageRouter = () => findByTestId(wrapper, 'PageRouter');
 
+				// isAuthenticated === null -> no render
 				expect(pageRouter().length).toEqual(0);
+
+				// !isAuthenticated -> no render
 				wrapper.setProps({ isAuthenticated: false });
 				expect(pageRouter().length).toEqual(0);
+
+				// isAuthenticated -> render
 				wrapper.setProps({ isAuthenticated: true });
 				expect(pageRouter().length).toEqual(1);
 			});
@@ -83,9 +89,14 @@ describe('<Routes />', () => {
 			it('should render redirect based on props', () => {
 				const redirect = () => findByTestId(wrapper, 'Redirect');
 
+				// isAuthenticated === null -> no render
 				expect(redirect().length).toEqual(0);
+
+				// isAuthenticated -> no render
 				wrapper.setProps({ isAuthenticated: true });
 				expect(redirect().length).toEqual(0);
+
+				// !isAuthenticated -> render
 				wrapper.setProps({ isAuthenticated: false });
 				expect(redirect().length).toEqual(1);
 			});
