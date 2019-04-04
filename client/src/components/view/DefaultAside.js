@@ -11,8 +11,8 @@ import UserListContainer from '../container/UserList';
 import { Aside, Text } from '../styles';
 
 const propTypes = {
-	suggested_users: PropTypes.array.isRequired,
-	getSuggestedUsers: PropTypes.func.isRequired,
+	suggested_users: PropTypes.array,
+	getSuggestedUsers: PropTypes.func,
 };
 
 const defaultProps = {
@@ -20,16 +20,17 @@ const defaultProps = {
 	getSuggestedUsers: () => null,
 };
 
-class DefaultAsideView extends Component {
+export class DefaultAsideView extends Component {
 	componentDidMount() {
 		this.props.getSuggestedUsers();
 	}
 
 	render() {
 		const { suggested_users } = this.props;
+
 		return (
 			<ErrorBoundary>
-				<Aside>
+				<Aside data-testid="DefaultAsideView">
 					<Aside.Header>
 						<Text color="white" large bolder enableCrop>
 							Who To Follow
@@ -37,7 +38,11 @@ class DefaultAsideView extends Component {
 					</Aside.Header>
 					<Aside.Body>
 						{suggested_users.length !== 0 && (
-							<UserListContainer list={suggested_users} count={3} />
+							<UserListContainer
+								list={suggested_users}
+								count={3}
+								data-testid="UserListContainer"
+							/>
 						)}
 					</Aside.Body>
 				</Aside>

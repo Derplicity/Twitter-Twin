@@ -14,22 +14,22 @@ import VirtualScroller from '../functional/VirtualScroller';
 import { Main, Text } from '../styles';
 
 const propTypes = {
-	getUserTimeline: PropTypes.func.isRequired,
-	getNewUserTimeline: PropTypes.func.isRequired,
+	getUserTimeline: PropTypes.func,
+	getNewUserTimeline: PropTypes.func,
 	user_timeline: PropTypes.arrayOf(PropTypes.object.isRequired),
-	more_data: PropTypes.bool.isRequired,
-	is_loading: PropTypes.bool.isRequired,
+	more_data: PropTypes.bool,
+	is_loading: PropTypes.bool,
 };
 
 const defaultProps = {
 	getUserTimeline: () => null,
 	getNewUserTimeline: () => null,
-	user_timeline: null,
+	user_timeline: [],
 	more_data: false,
 	is_loading: true,
 };
 
-class UserView extends Component {
+export class UserView extends Component {
 	constructor(props) {
 		super(props);
 
@@ -41,7 +41,7 @@ class UserView extends Component {
 		this.getData(this.props.match.params.username);
 	}
 
-	componentDidUpdate(prevProps, prevState, snapshot) {
+	componentDidUpdate(prevProps) {
 		if (this.props.match.params.username !== prevProps.match.params.username) {
 			// remove prev user_timeline data from localstorage
 			this.getData(this.props.match.params.username);
@@ -62,7 +62,7 @@ class UserView extends Component {
 
 		return (
 			<ErrorBoundary>
-				<div style={{ position: 'relative' }}>
+				<div style={{ position: 'relative' }} data-testid="UserView">
 					<div
 						style={{
 							backgroundColor: 'rgb(21, 32, 43)',
@@ -73,7 +73,7 @@ class UserView extends Component {
 						}}
 					/>
 					<Main.Header>
-						<Text color="white" large bolder enableCrop>
+						<Text color="white" large bolder enableCrop data-testid="header">
 							{this.props.match.params.username}
 						</Text>
 					</Main.Header>
@@ -81,6 +81,7 @@ class UserView extends Component {
 						<VirtualScroller
 							items={user_timeline}
 							getNewData={this.getNewData}
+							data-testid="VirtualScroller"
 						/>
 					) : null}
 				</div>

@@ -2,9 +2,9 @@ import React from 'react';
 
 import { NotFound, Text } from '../styles';
 
-export default function() {
+export default function NotFoundView() {
 	return (
-		<NotFound.Wrapper>
+		<NotFound.Wrapper data-testid="NotFoundView">
 			<NotFound>
 				<Text bold xlarge center color="white">
 					Sorry, that page doesn't exist!

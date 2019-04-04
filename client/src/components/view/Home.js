@@ -13,20 +13,20 @@ import VirtualScroller from '../functional/VirtualScroller';
 import { Main, Text } from '../styles';
 
 const propTypes = {
-	getHomeTimeline: PropTypes.func.isRequired,
-	getNewHomeTimeline: PropTypes.func.isRequired,
+	getHomeTimeline: PropTypes.func,
+	getNewHomeTimeline: PropTypes.func,
 	home_timeline: PropTypes.arrayOf(PropTypes.object.isRequired),
 };
 
 const defaultProps = {
 	getHomeTimeline: () => null,
 	getNewHomeTimeline: () => null,
-	home_timeline: null,
+	home_timeline: [],
 };
 
-class HomeView extends Component {
+export class HomeView extends Component {
 	componentDidMount() {
-		this.props.getHomeTimeline();
+		return this.props.getHomeTimeline();
 	}
 
 	render() {
@@ -34,7 +34,7 @@ class HomeView extends Component {
 
 		return (
 			<ErrorBoundary>
-				<div style={{ position: 'relative' }} data-testid="homeComponent">
+				<div style={{ position: 'relative' }} data-testid="HomeView">
 					<div
 						style={{
 							backgroundColor: 'rgb(21, 32, 43)',
@@ -53,6 +53,7 @@ class HomeView extends Component {
 						<VirtualScroller
 							items={home_timeline}
 							getNewData={getNewHomeTimeline}
+							data-testid="VirtualScroller"
 						/>
 					) : null}
 				</div>

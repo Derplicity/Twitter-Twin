@@ -1,46 +1,105 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Home from './Home';
-import { findByTestId } from '../../testUtils';
-import storeConfig from '../../storeConfig';
+import { checkProps, findByTestId } from '../../testUtils';
 
-const setUp = (initialState = {}) => {
-	const store = storeConfig(initialState);
-	const component = shallow(<Home store={store} />)
-		.childAt(0)
-		.dive();
-	return component;
+import { HomeView as Component } from './Home';
+
+const setUp = (props = {}) => {
+	const enzymeWrapper = shallow(<Component {...props} />);
+	return {
+		props,
+		enzymeWrapper,
+	};
 };
 
-describe('<Home>', () => {
-	let component;
+/* ********************
+       HOME VIEW
+******************** */
+describe('<HomeView />', () => {
+	/* ********************
+      CHECK PROPTYPES
+  ******************** */
+	describe('Check PropTypes', () => {
+		it('should not throw a warning', () => {
+			const expectedProps = {
+				home_timeline: [{ id: '0123456789' }],
+				getHomeTimeline: jest.fn(),
+				getNewHomeTimeline: jest.fn(),
+			};
 
-	beforeEach(() => {
-		const initialState = {
-			status: {
-				home_timeline: [
-					{
-						name: 'John',
-						screen_name: 'johnsmith',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: true,
-					},
-					{
-						name: 'Adam',
-						screen_name: 'adamwright',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: false,
-					},
-				],
-			},
-		};
-		component = setUp(initialState);
+			expect(checkProps(Component, expectedProps)).toBeUndefined();
+		});
 	});
 
-	it('should render without errors', () => {
-		const wrapper = findByTestId(component, 'homeComponent');
-		expect(wrapper.length).toBe(1);
+	/* ********************
+         COMPONENT
+  ******************** */
+	describe('Component', () => {
+		let wrapper;
+		let passedProps;
+
+		beforeEach(() => {
+			const initialProps = {
+				home_timeline: [],
+				getHomeTimeline: jest.fn(),
+				getNewHomeTimeline: jest.fn(),
+			};
+
+			const { enzymeWrapper, props } = setUp(initialProps);
+
+			wrapper = enzymeWrapper;
+			passedProps = props;
+		});
+
+		/* ********************
+      COMPONENT DID MOUNT
+    ******************** */
+		describe('componenDidMount()', () => {
+			it('should call getHomeTimeline()', () => {
+				const getHomeTimeline = () =>
+					passedProps.getHomeTimeline.mock.calls.length;
+
+				// Already called when shallow render was created
+				expect(getHomeTimeline()).toEqual(1);
+				wrapper.instance().componentDidMount();
+				expect(getHomeTimeline()).toEqual(2);
+			});
+		});
+
+		/* ********************
+            RENDER
+    ******************** */
+		describe('render()', () => {
+			it('should render without errors', () => {
+				expect(findByTestId(wrapper, 'HomeView').length).toEqual(1);
+			});
+
+			it('should render <VirtualScroller /> based on props', () => {
+				const virtualScroller = () => findByTestId(wrapper, 'VirtualScroller');
+
+				// home_timeline.length === 0 -> no render
+				expect(virtualScroller().length).toEqual(0);
+
+				// home_timeline.length !== 0 -> render
+				wrapper.setProps({ home_timeline: [{ id: '0123456789' }] });
+				expect(virtualScroller().length).toEqual(1);
+			});
+
+			it('should pass correct props to <VirtualScroller />', () => {
+				const home_timeline = [{ id: '0123456789' }];
+
+				// Props needed for VirtualScroller to render
+				wrapper.setProps({ home_timeline });
+
+				const props = findByTestId(wrapper, 'VirtualScroller').props();
+				const getNewHomeTimeline = () =>
+					passedProps.getNewHomeTimeline.mock.calls.length;
+
+				expect(props.items).toEqual(home_timeline);
+				expect(getNewHomeTimeline()).toEqual(0);
+				props.getNewData();
+				expect(getNewHomeTimeline()).toEqual(1);
+			});
+		});
 	});
 });
