@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 
-import UserCell from '../presentational/UserCell';
+import UserCellPresentator from '../presentational/UserCell';
 
 import { UserList, Text } from '../styles';
 
@@ -10,20 +10,17 @@ const propTypes = {
 	list: PropTypes.arrayOf(
 		PropTypes.shape({
 			name: PropTypes.string.isRequired,
-			screen_name: PropTypes.string.isRequired,
-			profile_image_url_https: PropTypes.string.isRequired,
-			verified: PropTypes.bool.isRequired,
 		}),
 	),
-	count: PropTypes.number.isRequired,
+	count: PropTypes.number,
 };
 
 const defaultProps = {
-	list: null,
+	list: [],
 	count: 0,
 };
 
-class UserListContainer extends Component {
+export class UserListContainer extends Component {
 	constructor(props) {
 		super(props);
 
@@ -39,7 +36,8 @@ class UserListContainer extends Component {
 	}
 
 	onFollowClick() {
-		console.log('followed');
+		// console.log('followed');
+		return null;
 	}
 
 	getUserCells(list, count) {
@@ -48,12 +46,12 @@ class UserListContainer extends Component {
 
 		newList.map(item =>
 			userCells.push(
-				<UserCell
+				<UserCellPresentator
 					user={item}
 					onUserClick={this.onUserClick}
 					onFollowClick={this.onFollowClick}
 					key={item.name}
-					data-testid="userCellComponent"
+					data-testid="UserCellPresentator"
 				/>,
 			),
 		);
@@ -64,15 +62,15 @@ class UserListContainer extends Component {
 	render() {
 		const { list, count } = this.props;
 
-		if (!list || list.length === 0 || !count || count === 0) {
+		if (list.length === 0 || count === 0) {
 			return null;
 		}
 
 		return (
-			<UserList.Wrapper data-testid="userListComponent">
+			<UserList.Wrapper data-testid="UserListContainer">
 				<UserList>{this.getUserCells(list, count)}</UserList>
 				<UserList.Interactive transitionto="blueGrey__light">
-					<UserList.Button to="/i/who_to_follow" data-testid="userListLink">
+					<UserList.Button to="/i/who_to_follow">
 						<Text color="blue">Show more</Text>
 					</UserList.Button>
 				</UserList.Interactive>

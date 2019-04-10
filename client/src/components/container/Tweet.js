@@ -11,49 +11,49 @@ import {
 import getTimeSince from '../util/getTimeSince';
 import formatTweet from '../util/formatTweet';
 
-import Tweet from '../presentational/Tweet';
+import TweetPresentator from '../presentational/Tweet';
 
 const propTypes = {
 	data: PropTypes.shape({
 		id_str: PropTypes.string.isRequired,
 		created_at: PropTypes.string.isRequired,
 		entities: PropTypes.object.isRequired,
+		favorite_count: PropTypes.number.isRequired,
+		favorited: PropTypes.bool.isRequired,
+		retweet_count: PropTypes.number.isRequired,
+		retweeted: PropTypes.bool.isRequired,
 		extended_entities: PropTypes.object,
 		user: PropTypes.shape({
 			name: PropTypes.string.isRequired,
 			screen_name: PropTypes.string.isRequired,
-			profile_image_url_https: PropTypes.string.isRequired,
 			verified: PropTypes.bool.isRequired,
-		}),
+			profile_image_url_https: PropTypes.string.isRequired,
+		}).isRequired,
 		retweeted_status: PropTypes.shape({
-			created_at: PropTypes.string,
+			created_at: PropTypes.string.isRequired,
+			entities: PropTypes.object.isRequired,
+			extended_entities: PropTypes.object,
 			user: PropTypes.shape({
-				name: PropTypes.string,
-				screen_name: PropTypes.string,
-				profile_image_url_https: PropTypes.string,
-				verified: PropTypes.bool,
-			}),
+				name: PropTypes.string.isRequired,
+				screen_name: PropTypes.string.isRequired,
+				verified: PropTypes.bool.isRequired,
+				profile_image_url_https: PropTypes.string.isRequired,
+			}).isRequired,
 		}),
 	}),
-	calcItemHeight: PropTypes.func.isRequired,
+	calcItemHeight: PropTypes.func,
+	addStatusAction: PropTypes.func,
+	removeStatusAction: PropTypes.func,
 };
 
 const defaultProps = {
-	data: {
-		id_str: '',
-		created_at: '',
-		entities: {},
-		user: {
-			name: '',
-			screen_name: '',
-			profile_image_url_https: '',
-			verified: false,
-		},
-	},
+	data: null,
 	calcItemHeight: () => null,
+	addStatusAction: () => null,
+	removeStatusAction: () => null,
 };
 
-class TweetContainer extends Component {
+export class TweetContainer extends Component {
 	constructor(props) {
 		super(props);
 
@@ -73,6 +73,8 @@ class TweetContainer extends Component {
 		if (this.node) {
 			this.props.calcItemHeight(this.node, data.index);
 		}
+
+		if (!data) return;
 
 		const {
 			favorite_count: likeCount,
@@ -147,50 +149,63 @@ class TweetContainer extends Component {
 		const { likeCount, isLiked, retweetCount, isRetweeted } = this.state;
 		const { data } = this.props;
 
-		const author = data.user;
-		const username = author.screen_name;
-		const isRetweet = !!data.retweeted_status;
+		if (!data) return null;
+
 		const retweetData = data.retweeted_status;
-		const oAuthor = isRetweet ? retweetData.user : data.user;
-		const oUsername = oAuthor.screen_name;
-		const timeCreated = isRetweet ? retweetData.created_at : data.created_at;
+		const isRetweet = !!retweetData;
+
+		let oUser = data.user;
+		let entities = data.entities;
+		let extended_entities = data.extended_entities;
+		let timeCreated = data.created_at;
+
+		if (isRetweet) {
+			oUser = retweetData.user;
+			entities = retweetData.entities;
+			extended_entities = retweetData.extended_entities;
+			timeCreated = retweetData.created_at;
+		}
+
+		const id_str = data.id_str;
+		const user = data.user;
+		const name = user.name;
+		const username = user.screen_name;
+		const oImgSrc = oUser.profile_image_url_https;
+		const oName = oUser.name;
+		const oUsername = oUser.screen_name;
+		const oIsVerified = oUser.verified;
 
 		const time = getTimeSince(timeCreated);
-
 		const formattedText = formatTweet(data);
+
+		const handleTweetClick = this.handleTweetClick;
+		const handleAction = this.handleAction;
 
 		const slimData = {
 			likeCount,
 			isLiked,
 			retweetCount,
 			isRetweeted,
-			entities: isRetweet ? retweetData.entities : data.entities,
-			extended_entities: isRetweet
-				? !!retweetData.extended_entities
-					? retweetData.extended_entities
-					: false
-				: !!data.extended_entities
-				? data.extended_entities
-				: false,
-			name: author.name,
+			entities,
+			extended_entities,
+			name,
 			username,
-			authorUrl: `/${username}`,
-			tweetUrl: `/${username}/status/${data.id_str}`,
+			id_str,
 			isRetweet,
-			oAuthor,
-			oImgSrc: oAuthor.profile_image_url_https,
-			oName: oAuthor.name,
+			oImgSrc,
+			oName,
 			oUsername,
-			oIsVerified: oAuthor.verified,
-			oAuthorUrl: `/${oUsername}`,
+			oIsVerified,
 			timeCreated,
 			time,
 			formattedText,
+			handleTweetClick,
+			handleAction,
 		};
 
 		return (
-			<div ref={node => (this.node = node)}>
-				<Tweet props={slimData} />
+			<div ref={node => (this.node = node)} data-testid="TweetContainer">
+				<TweetPresentator data={slimData} data-testid="TweetPresentator" />
 			</div>
 		);
 	}

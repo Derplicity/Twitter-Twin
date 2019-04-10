@@ -1,180 +1,181 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import UserList from './UserList';
+import { checkProps, findByTestId } from '../../testUtils';
 
-import { findByTestId, checkProps } from '../../testUtils';
+import { UserListContainer as Component } from './UserList';
 
 const setUp = (props = {}) => {
-	const component = shallow(<UserList.WrappedComponent {...props} />);
-	return component;
+	const enzymeWrapper = shallow(<Component {...props} />);
+	return {
+		props,
+		enzymeWrapper,
+	};
 };
 
-describe('<UserList>', () => {
+/* ********************
+  USER LIST CONTAINER
+******************** */
+describe('<UserListContainer />', () => {
+	/* ********************
+      CHECK PROPTYPES
+  ******************** */
 	describe('Check PropTypes', () => {
-		it('should not throw warning', () => {
+		it('should not throw a warning', () => {
 			const expectedProps = {
-				list: [
-					{
-						name: 'John',
-						screen_name: 'johnsmith',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: true,
-					},
-				],
-				count: 3,
+				list: [{ name: 'test' }],
+				count: 1,
 			};
 
-			expect(checkProps(UserList, expectedProps)).toBeUndefined();
+			expect(checkProps(Component, expectedProps)).toBeUndefined();
 		});
 	});
 
-	describe('With Valid Props', () => {
-		let component;
+	/* ********************
+         COMPONENT
+  ******************** */
+	describe('Component', () => {
+		let wrapper;
+		let passedProps;
 
 		beforeEach(() => {
-			const props = {
-				list: [
-					{
-						name: 'John',
-						screen_name: 'johnsmith',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: true,
-					},
-					{
-						name: 'Lisa',
-						screen_name: 'lisamoore',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: true,
-					},
-					{
-						name: 'Sam',
-						screen_name: 'samrock',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: false,
-					},
-					{
-						name: 'George',
-						screen_name: 'georgemill',
-						profile_image_url_https:
-							'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-						verified: false,
-					},
-				],
-				count: 3,
+			const initialProps = {
+				list: [{ name: 'test' }],
+				count: 1,
+
+				history: [],
 			};
 
-			component = setUp(props);
+			const { enzymeWrapper, props } = setUp(initialProps);
+
+			wrapper = enzymeWrapper;
+			passedProps = props;
 		});
 
-		it('should render without errors', () => {
-			const wrapper = findByTestId(component, 'userListComponent');
-			expect(wrapper.length).toBe(1);
-		});
-
-		it('should render [count] user cells', () => {
-			const userCells = findByTestId(component, 'userCellComponent');
-			expect(userCells.length).toBe(3);
-		});
-
-		it('should render link button', () => {
-			const linkButton = findByTestId(component, 'userListLink');
-			expect(linkButton.length).toBe(1);
-		});
-	});
-
-	describe('With Invalid Props', () => {
-		let component;
-
-		beforeEach(() => {
-			const props = {
-				list: [],
-				count: 0,
-			};
-
-			component = setUp(props);
-		});
-
-		it('should not render', () => {
-			const wrapper = findByTestId(component, 'userListComponent');
-			expect(wrapper.length).toBe(0);
-		});
-
-		describe('With Invalid List', () => {
-			beforeEach(() => {
-				const props = {
-					list: [],
-					count: 3,
+		/* ********************
+         ON USER CLICK
+    ******************** */
+		describe('onUserClick()', () => {
+			it('should change url path if target === currentTarget', () => {
+				const history = () => passedProps.history;
+				const prevHistory = history();
+				const url = 'http://example.com';
+				const expectedHistory = [url];
+				let e = {
+					target: 0,
+					currentTarget: 1,
 				};
 
-				component = setUp(props);
-			});
+				// target !== currentTarget -> no change url path
+				wrapper.instance().onUserClick(e, url);
+				expect(history()).toEqual(prevHistory);
 
-			it('should not render', () => {
-				const wrapper = findByTestId(component, 'userListComponent');
-				expect(wrapper.length).toBe(0);
+				// target === currentTarget -> change url path
+				e.target = 1;
+				wrapper.instance().onUserClick(e, url);
+				expect(history()).toEqual(expectedHistory);
+			});
+		});
+
+		/* ********************
+        ON FOLLOW CLICK
+    ******************** */
+		describe('onFollowClick()', () => {
+			it('should return null', () => {
+				expect(wrapper.instance().onFollowClick()).toBeNull();
 			});
 		});
 
-		describe('With Invalid Count', () => {
-			beforeEach(() => {
-				const props = {
-					list: [
-						{
-							name: 'John',
-							screen_name: 'johnsmith',
-							profile_image_url_https:
-								'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-							verified: true,
-						},
-						{
-							name: 'Lisa',
-							screen_name: 'lisamoore',
-							profile_image_url_https:
-								'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-							verified: true,
-						},
-						{
-							name: 'Sam',
-							screen_name: 'samrock',
-							profile_image_url_https:
-								'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-							verified: false,
-						},
-						{
-							name: 'George',
-							screen_name: 'georgemill',
-							profile_image_url_https:
-								'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-							verified: false,
-						},
-					],
-					count: 0,
-				};
+		/* ********************
+		     GET USER CELLS
+		******************** */
+		describe('getUserCells()', () => {
+			it('should return an array of <UserCellPresentator />', () => {
+				const list = [{ name: 'test' }, { name: 'test2' }, { name: 'test3' }];
 
-				component = setUp(props);
-			});
+				// output.length should equal count
+				let count = 2;
+				expect(wrapper.instance().getUserCells(list, count).length).toEqual(
+					count,
+				);
+				count = 3;
+				expect(wrapper.instance().getUserCells(list, count).length).toEqual(
+					count,
+				);
 
-			it('should not render', () => {
-				const wrapper = findByTestId(component, 'userListComponent');
-				expect(wrapper.length).toBe(0);
+				// Check each <UserCellPresentator /> props
+				const onUserClick = (wrapper.instance().onUserClick = jest.fn());
+				const onFollowClick = (wrapper.instance().onFollowClick = jest.fn());
+				wrapper
+					.instance()
+					.getUserCells(list, count)
+					.map((userCell, index) => {
+						const props = userCell.props;
+						const mockOnUserClick = () => onUserClick.mock.calls.length;
+						const mockOnFollowClick = () => onFollowClick.mock.calls.length;
+
+						// List item is passed to user
+						expect(props.user).toEqual(list[index]);
+
+						// onUserClick() is passed to onUserClick
+						expect(mockOnUserClick()).toEqual(index);
+						props.onUserClick();
+						expect(mockOnUserClick()).toEqual(index + 1);
+
+						// onFollowClick() is passed to onFollowClick
+						expect(mockOnFollowClick()).toEqual(index);
+						props.onFollowClick();
+						expect(mockOnFollowClick()).toEqual(index + 1);
+					});
 			});
 		});
-	});
 
-	describe('Without Props', () => {
-		let component;
+		/* ********************
+		        RENDER
+		******************** */
+		describe('render()', () => {
+			it('should render without errors', () => {
+				expect(findByTestId(wrapper, 'UserListContainer').length).toEqual(1);
+			});
 
-		beforeEach(() => {
-			component = setUp();
-		});
+			it('should not render if props are invalid', () => {
+				// list.length !== 0 && count === 0 -> no render
+				wrapper.setProps({ count: 0 });
+				expect(findByTestId(wrapper, 'UserListContainer').length).toEqual(0);
 
-		it('should not render', () => {
-			const wrapper = findByTestId(component, 'userListComponent');
-			expect(wrapper.length).toBe(0);
+				// list.length === 0 && count === 0 -> no render
+				wrapper.setProps({ list: [] });
+				expect(findByTestId(wrapper, 'UserListContainer').length).toEqual(0);
+
+				// list.length === 0 && count !== 0 -> no render
+				wrapper.setProps({ count: 2 });
+				expect(findByTestId(wrapper, 'UserListContainer').length).toEqual(0);
+			});
+
+			it('should render list of <UserCellPresentator /> based on props', () => {
+				const userCells = () => findByTestId(wrapper, 'UserCellPresentator');
+
+				// list.length === 1 && count === 1 -> 1 userCell
+				expect(userCells().length).toEqual(1);
+
+				// list.length === 3 && count === 2 -> 2 userCells
+				wrapper.setProps({
+					list: [{ name: 'test' }, { name: 'test2' }, { name: 'test3' }],
+					count: 2,
+				});
+				expect(userCells().length).toEqual(2);
+
+				// list.length === 3 && count === 0 -> 0 userCells
+				wrapper.setProps({ count: 0 });
+				expect(userCells().length).toEqual(0);
+
+				// list.length === 0 && count === 0 -> 0 userCells
+				wrapper.setProps({ list: [] });
+				expect(userCells().length).toEqual(0);
+
+				// list.length === 0 && count === 2 -> 0 userCells
+				wrapper.setProps({ count: 2 });
+				expect(userCells().length).toEqual(0);
+			});
 		});
 	});
 });
