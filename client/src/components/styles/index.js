@@ -13,6 +13,7 @@ import Media from './Media';
 import Navbar from './Navbar';
 import NavItem from './NavItem';
 import NotFound from './NotFound';
+import Search from './Search';
 import Text from './Text';
 import Tweet from './Tweet';
 import UserCell from './UserCell';
@@ -35,6 +36,7 @@ export {
 	Navbar,
 	NavItem,
 	NotFound,
+	Search,
 	Text,
 	Tweet,
 	UserCell,

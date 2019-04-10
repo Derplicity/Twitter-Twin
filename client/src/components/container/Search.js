@@ -7,13 +7,8 @@ import { getUsers } from '../../actions/userActions';
 import { getTrends } from '../../actions/trendActions';
 
 import SearchDropdown from '../presentational/SearchDropdown';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	SearchForm,
-	Search,
-	SearchBox,
-	SearchClear,
-} from '../styled-components';
+
+import { Search, Icon } from '../styles';
 
 const propTypes = {
 	getUsers: PropTypes.func,
@@ -143,14 +138,14 @@ export class SearchContainer extends Component {
 		const { users, trends, setClickContainer } = this.props;
 
 		return (
-			<SearchForm
+			<Search.Wrapper
 				role="search"
 				autoComplete="off"
 				ref={setClickContainer}
 				data-testid="SearchContainer"
 			>
 				<Search>
-					<SearchBox
+					<Search.Input
 						ref={node => (this.input = node)}
 						onFocus={this.handleOpen}
 						type="text"
@@ -162,15 +157,17 @@ export class SearchContainer extends Component {
 						autoComplete="off"
 						data-testid="input"
 					/>
-					<FontAwesomeIcon icon={['fas', 'search']} />
+					<Icon.Wrapper small>
+						<Icon icon={['fas', 'search']} color="grey" />
+					</Icon.Wrapper>
 					{isOpen && input !== '' && (
-						<SearchClear
+						<Search.Clear
 							role="button"
 							onClick={this.clearInput}
 							data-testid="clear-button"
 						>
-							<FontAwesomeIcon icon={['fas', 'times-circle']} />
-						</SearchClear>
+							<Icon icon={['fas', 'times-circle']} />
+						</Search.Clear>
 					)}
 					{isOpen && (
 						<SearchDropdown
@@ -181,7 +178,7 @@ export class SearchContainer extends Component {
 						/>
 					)}
 				</Search>
-			</SearchForm>
+			</Search.Wrapper>
 		);
 	}
 }
