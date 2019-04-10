@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
-import Header from '../container/Header';
+import HeaderView from '../view/Header';
 import Footer from '../presentational/Footer';
 
 import MainRoutes from './Main';
@@ -19,7 +19,7 @@ export default function PageRouter() {
 		<Router data-testid="PageRouter">
 			<PageContainer>
 				<HeaderContainer>
-					<Header data-testid="HeaderContainer" />
+					<HeaderView data-testid="HeaderView" />
 				</HeaderContainer>
 				<MainContainer>
 					<main id="main" role="main">

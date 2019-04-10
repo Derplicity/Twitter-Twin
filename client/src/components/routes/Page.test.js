@@ -28,7 +28,7 @@ describe('<PageRouter />', () => {
 	});
 
 	it('should render child components', () => {
-		expect(findByTestId(wrapper, 'HeaderContainer').length).toEqual(1);
+		expect(findByTestId(wrapper, 'HeaderView').length).toEqual(1);
 		expect(findByTestId(wrapper, 'MainRoutes').length).toEqual(1);
 		expect(findByTestId(wrapper, 'AsideRoutes').length).toEqual(1);
 		expect(findByTestId(wrapper, 'FooterPresentator').length).toEqual(1);
