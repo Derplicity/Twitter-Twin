@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class ClickController extends Component {
+export class ClickController extends Component {
 	constructor(props) {
 		super(props);
 
