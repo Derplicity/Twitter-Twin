@@ -1,27 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {
-	NavItemWrapper,
-	NavItemLink,
-	ItemLinkActive,
-	LinkIcon,
-} from '../styled-components';
+import { Icon, NavItem } from '../styles';
 
-const NavItem = ({ exact, to, children }) => (
-	<NavItemWrapper>
-		<NavItemLink exact={exact} to={to}>
-			<ItemLinkActive tabIndex='-1'>
-				<LinkIcon>{children}</LinkIcon>
-			</ItemLinkActive>
-		</NavItemLink>
-	</NavItemWrapper>
-);
-
-NavItem.propTypes = {
-	exact: PropTypes.bool.isRequired,
-	to: PropTypes.string.isRequired,
-	children: PropTypes.element.isRequired,
+const propTypes = {
+	exact: PropTypes.bool,
+	to: PropTypes.string,
+	icon: PropTypes.arrayOf(PropTypes.string.isRequired),
 };
 
-export default NavItem;
+const defaultProps = {
+	exact: false,
+	to: '/',
+	icon: ['fas', 'home'],
+};
+
+function NavItemPresentator({ exact, to, icon }) {
+	return (
+		<NavItem.Wrapper>
+			<NavItem.InternalLink exact={exact} to={to}>
+				<NavItem tabIndex="-1">
+					<Icon.Wrapper large>
+						<Icon.Bubble tabIndex="-1" />
+						<Icon icon={icon} color="grey" />
+					</Icon.Wrapper>
+				</NavItem>
+			</NavItem.InternalLink>
+		</NavItem.Wrapper>
+	);
+}
+
+NavItemPresentator.propTypes = propTypes;
+NavItemPresentator.defaultProps = defaultProps;
+
+export default NavItemPresentator;

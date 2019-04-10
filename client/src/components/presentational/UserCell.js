@@ -7,22 +7,17 @@ import { UserCell, Button, Text, Icon } from '../styles';
 
 const propTypes = {
 	user: PropTypes.shape({
-		name: PropTypes.string.isRequired,
-		screen_name: PropTypes.string.isRequired,
-		verified: PropTypes.bool.isRequired,
-		profile_image_url_https: PropTypes.string.isRequired,
+		name: PropTypes.string,
+		screen_name: PropTypes.string,
+		verified: PropTypes.bool,
+		profile_image_url_https: PropTypes.string,
 	}),
-	onUserClick: PropTypes.func.isRequired,
-	onFollowClick: PropTypes.func.isRequired,
+	onUserClick: PropTypes.func,
+	onFollowClick: PropTypes.func,
 };
 
 const defaultProps = {
-	user: {
-		name: '',
-		screen_name: '',
-		verified: false,
-		profile_image_url_https: '',
-	},
+	user: null,
 	onUserClick: () => null,
 	onFollowClick: () => null,
 };
@@ -32,24 +27,39 @@ export default function UserCellPresentator({
 	onUserClick,
 	onFollowClick,
 }) {
+	if (!user) return null;
+
 	const name = user.name;
 	const isVerified = user.verified;
 	const username = user.screen_name;
 	const url = `/${username}`;
 	const imgsrc = user.profile_image_url_https;
+
 	return (
 		<UserCell.Interactive
 			transitionto="blueGrey__light"
 			onClick={e => onUserClick(e, url)}
+			data-testid="userCellLinkWrapper"
 		>
 			<UserCell.Wrapper data-testid="userCellComponent">
 				<UserCell>
 					<UserCell.Image>
-						<Image to={url} src={imgsrc} alt={name} isCircle isSmall />
+						<Image
+							to={url}
+							src={imgsrc}
+							alt={name}
+							isCircle
+							isSmall
+							data-testid="userCellImage"
+						/>
 					</UserCell.Image>
 					<UserCell.Content>
 						<UserCell.Header>
-							<Text.InternalLink to={url} inline="true">
+							<Text.InternalLink
+								to={url}
+								inline="true"
+								data-testid="userCellLink"
+							>
 								<Text.Group>
 									<Text enableCrop bold decor color="white">
 										{name}
@@ -60,6 +70,7 @@ export default function UserCellPresentator({
 												marginLeft: '2px',
 											}}
 											small
+											data-testid="userCellVerified"
 										>
 											<Icon icon={['fas', 'check-circle']} color="white" />
 										</Icon.Wrapper>
@@ -71,7 +82,10 @@ export default function UserCellPresentator({
 							</Text.InternalLink>
 						</UserCell.Header>
 						<UserCell.Button>
-							<Button.Wrapper onClick={onFollowClick}>
+							<Button.Wrapper
+								onClick={onFollowClick}
+								data-testid="userCellButton"
+							>
 								<Button>
 									<Text bold color="blue" enableCrop>
 										Follow

@@ -6,31 +6,34 @@ import Hat from './Hat';
 import Image from './Image';
 import Action from './Action';
 
-import { Tweet, Header, Text, Icon, Body } from '../styles';
+import { Tweet, Text, Icon, Body } from '../styles';
 
-export default function({ props }) {
+export default function({ data }) {
 	const {
-		isRetweet,
-		authorUrl,
-		name,
-		oAuthorUrl,
-		oImgSrc,
-		oUsername,
-		oName,
-		oIsVerified,
-		tweetUrl,
-		time,
-		timeCreated,
-		formattedText,
+		likeCount,
+		isLiked,
+		retweetCount,
+		isRetweeted,
 		entities,
 		extended_entities,
-		isRetweeted,
-		retweetCount,
-		isLiked,
-		likeCount,
+		name,
+		username,
+		id_str,
+		isRetweet,
+		oImgSrc,
+		oName,
+		oUsername,
+		oIsVerified,
+		timeCreated,
+		time,
+		formattedText,
 		handleTweetClick,
 		handleAction,
-	} = props;
+	} = data;
+
+	const userUrl = `/${username}`;
+	const oUserUrl = `/${oUsername}`;
+	const tweetUrl = `/${username}/status/${id_str}`;
 
 	return (
 		<Tweet.Wrapper>
@@ -39,11 +42,11 @@ export default function({ props }) {
 				onClick={handleTweetClick}
 			>
 				<Tweet role="article" tabIndex="0">
-					{isRetweet && <Hat to={authorUrl} text={name} />}
+					{isRetweet && <Hat to={userUrl} text={name} />}
 					<Tweet.Skeleton>
 						<Tweet.Aside>
 							<Image
-								to={oAuthorUrl}
+								to={oUserUrl}
 								src={oImgSrc}
 								alt={oUsername}
 								isCircle
@@ -52,9 +55,9 @@ export default function({ props }) {
 						</Tweet.Aside>
 						<Tweet.Main>
 							<Tweet.Content>
-								<Header>
-									<Header.Content>
-										<Text.InternalLink to={oAuthorUrl}>
+								<Tweet.Header>
+									<Tweet.Header.Content>
+										<Text.InternalLink to={oUserUrl}>
 											<Text.Group>
 												<Text enableCrop bold decor color="white">
 													{oName}
@@ -101,11 +104,11 @@ export default function({ props }) {
 												</Text>
 											</Text.InternalLink>
 										</Text.Group>
-									</Header.Content>
-									<Header.Actions>
+									</Tweet.Header.Content>
+									<Tweet.Header.Actions>
 										<Action type="caret-down" isSmall />
-									</Header.Actions>
-								</Header>
+									</Tweet.Header.Actions>
+								</Tweet.Header>
 								<Body>
 									<Text color="white">{formattedText}</Text>
 								</Body>
