@@ -677,6 +677,7 @@ export const Search = styled.div`
 	width: 100%;
 	height: 100%;
 	font-size: 13px;
+	pointer-events: auto;
 
 	svg {
 		position: absolute;
@@ -692,6 +693,7 @@ export const Search = styled.div`
 `;
 
 export const SearchBox = styled.input`
+	pointer-events: auto;
 	width: 100%;
 	border-radius: 15px;
 	border: 1px solid rgba(0, 0, 0, 0);
@@ -718,6 +720,7 @@ export const SearchBox = styled.input`
 `;
 
 export const SearchClear = styled.div`
+	pointer-events: auto;
 	position: absolute;
 	top: 14px;
 	right: 1px;
@@ -745,6 +748,7 @@ export const SearchClear = styled.div`
 `;
 
 export const SearchDropdownContainer = styled.div`
+	pointer-events: auto;
 	position: absolute;
 	top: 3.5em;
 	right: 0;
@@ -761,6 +765,7 @@ export const SearchDropdownContainer = styled.div`
 `;
 
 export const SearchDropdownItem = styled.li`
+	pointer-events: auto;
 	position: relative;
 	height: ${props => (props.small ? '3.5rem' : '4.5rem')};
 	width: 100%;
@@ -773,6 +778,7 @@ export const SearchDropdownItem = styled.li`
 `;
 
 export const SearchDropdownLink = styled(NavLink)`
+	pointer-events: auto;
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -786,6 +792,7 @@ export const SearchDropdownLink = styled(NavLink)`
 `;
 
 export const SearchDropdownList = styled.ul`
+	pointer-events: auto;
 	height: 100%;
 	display: flex;
 	flex-direction: row;
@@ -799,6 +806,7 @@ export const SearchDropdownList = styled.ul`
 `;
 
 export const SearchDropdownPlaceholder = styled.span`
+	pointer-events: auto;
 	width: 100%;
 	text-align: center;
 	margin-top: 10px;
@@ -809,11 +817,13 @@ export const SearchDropdownPlaceholder = styled.span`
 `;
 
 export const SearchForm = styled.form`
+	pointer-events: auto;
 	width: 100%;
 	height: 100%;
 `;
 
 export const SearchProfileWrapper = styled.div`
+	pointer-events: auto;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

@@ -32,12 +32,13 @@ const Wrapper = styled.div`
 
 	justify-content: center;
 	align-items: center;
-	height: ${props => (props.small ? '15px' : '20px')};
-	width: ${props => (props.small ? '15px' : '20px')};
+	height: ${props => (props.small ? '15px' : props.large ? '25px' : '20px')};
+	width: ${props => (props.small ? '15px' : props.large ? '25px' : '20px')};
 	color: inherit;
 
 	& svg {
-		font-size: ${props => props.small && '13px'};
+		font-size: ${props =>
+			props.small ? '13px' : props.large ? '20px' : 'inherit'};
 	}
 `;
 

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { globals, flexParent, flexChild, interactive } from './shared';
+import Header from './Tweet.Header';
 
 const Tweet = styled.article`
 	${globals};
@@ -81,6 +82,7 @@ const Actions = styled.div`
 
 const tweetStyles = {
 	Wrapper,
+	Header,
 	Interactive,
 	Aside,
 	Main,

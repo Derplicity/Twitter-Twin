@@ -10,6 +10,8 @@ import Image from './Image';
 import LinkCard from './LinkCard';
 import Main from './Main';
 import Media from './Media';
+import Navbar from './Navbar';
+import NavItem from './NavItem';
 import NotFound from './NotFound';
 import Text from './Text';
 import Tweet from './Tweet';
@@ -30,6 +32,8 @@ export {
 	LinkCard,
 	Main,
 	Media,
+	Navbar,
+	NavItem,
 	NotFound,
 	Text,
 	Tweet,
