@@ -48,7 +48,7 @@ export default function() {
 					</Text>
 				</Text.ExternalLink>
 				<Text small color="grey" style={itemStyle}>
-					&copy; 2019 Twitter Mock
+					&copy; 2019 Twitter Twin
 				</Text>
 			</Footer>
 		</Footer.Wrapper>
