@@ -22,7 +22,7 @@ describe('<ErrorBoundary />', () => {
 	describe('Check PropTypes', () => {
 		it('should not throw a warning', () => {
 			const expectedProps = {
-				children: [<div />],
+				children: <div />,
 			};
 
 			expect(checkProps(Component, expectedProps)).toBeUndefined();
@@ -38,7 +38,7 @@ describe('<ErrorBoundary />', () => {
 
 		beforeEach(() => {
 			const initialProps = {
-				children: [<div />],
+				children: <div />,
 			};
 
 			const { enzymeWrapper, props } = setUp(initialProps);
