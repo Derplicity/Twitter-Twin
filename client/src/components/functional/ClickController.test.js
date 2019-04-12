@@ -22,7 +22,7 @@ describe('<ClickController />', () => {
 	describe('Check PropTypes', () => {
 		it('should not throw a warning', () => {
 			const expectedProps = {
-				children: [<div />],
+				children: <div />,
 			};
 
 			expect(checkProps(Component, expectedProps)).toBeUndefined();
@@ -38,7 +38,7 @@ describe('<ClickController />', () => {
 
 		beforeEach(() => {
 			const initialProps = {
-				children: [<div />],
+				children: <div />,
 			};
 
 			const { enzymeWrapper, props } = setUp(initialProps);
@@ -139,7 +139,7 @@ describe('<ClickController />', () => {
 				);
 
 				let e = {
-					target: [<span />],
+					target: <span />,
 				};
 
 				// Container contains e.target -> return null
@@ -150,7 +150,7 @@ describe('<ClickController />', () => {
 				wrapper.setState({ isOutside: false });
 
 				e = {
-					target: [<input />],
+					target: <input />,
 				};
 
 				// Container does not contain e.target -> set state and stop listener
