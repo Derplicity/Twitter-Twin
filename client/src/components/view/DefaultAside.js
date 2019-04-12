@@ -11,54 +11,54 @@ import UserListContainer from '../container/UserList';
 import { Aside, Text } from '../styles';
 
 const propTypes = {
-	suggested_users: PropTypes.array,
-	getSuggestedUsers: PropTypes.func,
+  suggested_users: PropTypes.array,
+  getSuggestedUsers: PropTypes.func,
 };
 
 const defaultProps = {
-	suggested_users: [],
-	getSuggestedUsers: () => null,
+  suggested_users: [],
+  getSuggestedUsers: () => null,
 };
 
 export class DefaultAsideView extends Component {
-	componentDidMount() {
-		this.props.getSuggestedUsers();
-	}
+  componentDidMount() {
+    this.props.getSuggestedUsers();
+  }
 
-	render() {
-		const { suggested_users } = this.props;
+  render() {
+    const { suggested_users } = this.props;
 
-		return (
-			<ErrorBoundary>
-				<Aside data-testid="DefaultAsideView">
-					<Aside.Header>
-						<Text color="white" large bolder enableCrop>
-							Who To Follow
-						</Text>
-					</Aside.Header>
-					<Aside.Body>
-						{suggested_users.length !== 0 && (
-							<UserListContainer
-								list={suggested_users}
-								count={3}
-								data-testid="UserListContainer"
-							/>
-						)}
-					</Aside.Body>
-				</Aside>
-			</ErrorBoundary>
-		);
-	}
+    return (
+      <ErrorBoundary>
+        <Aside data-testid="DefaultAsideView">
+          <Aside.Header>
+            <Text color="white" large bolder enableCrop>
+              Who To Follow
+            </Text>
+          </Aside.Header>
+          <Aside.Body>
+            {suggested_users.length !== 0 && (
+              <UserListContainer
+                list={suggested_users}
+                count={3}
+                data-testid="UserListContainer"
+              />
+            )}
+          </Aside.Body>
+        </Aside>
+      </ErrorBoundary>
+    );
+  }
 }
 
 const mapStateToProps = state => ({
-	suggested_users: state.user.suggested_users,
+  suggested_users: state.user.suggested_users,
 });
 
 DefaultAsideView.propTypes = propTypes;
 DefaultAsideView.defaultProps = defaultProps;
 
 export default connect(
-	mapStateToProps,
-	{ getSuggestedUsers },
+  mapStateToProps,
+  { getSuggestedUsers },
 )(DefaultAsideView);

@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import {
-	getHomeTimeline,
-	getNewHomeTimeline,
+  getHomeTimeline,
+  getNewHomeTimeline,
 } from '../../actions/statusActions';
 
 import ErrorBoundary from '../functional/ErrorBoundary';
@@ -13,63 +13,63 @@ import VirtualScroller from '../functional/VirtualScroller';
 import { Main, Text } from '../styles';
 
 const propTypes = {
-	getHomeTimeline: PropTypes.func,
-	getNewHomeTimeline: PropTypes.func,
-	home_timeline: PropTypes.arrayOf(PropTypes.object.isRequired),
+  getHomeTimeline: PropTypes.func,
+  getNewHomeTimeline: PropTypes.func,
+  home_timeline: PropTypes.arrayOf(PropTypes.object.isRequired),
 };
 
 const defaultProps = {
-	getHomeTimeline: () => null,
-	getNewHomeTimeline: () => null,
-	home_timeline: [],
+  getHomeTimeline: () => null,
+  getNewHomeTimeline: () => null,
+  home_timeline: [],
 };
 
 export class HomeView extends Component {
-	componentDidMount() {
-		return this.props.getHomeTimeline();
-	}
+  componentDidMount() {
+    return this.props.getHomeTimeline();
+  }
 
-	render() {
-		const { home_timeline, getNewHomeTimeline } = this.props;
+  render() {
+    const { home_timeline, getNewHomeTimeline } = this.props;
 
-		return (
-			<ErrorBoundary>
-				<div style={{ position: 'relative' }} data-testid="HomeView">
-					<div
-						style={{
-							backgroundColor: 'rgb(21, 32, 43)',
-							width: '540px',
-							height: window.scrollY + window.innerHeight,
-							position: 'fixed',
-							zIndex: '-1',
-						}}
-					/>
-					<Main.Header>
-						<Text color="white" large bolder enableCrop>
-							Home
-						</Text>
-					</Main.Header>
-					{home_timeline.length !== 0 ? (
-						<VirtualScroller
-							items={home_timeline}
-							getNewData={getNewHomeTimeline}
-							data-testid="VirtualScroller"
-						/>
-					) : null}
-				</div>
-			</ErrorBoundary>
-		);
-	}
+    return (
+      <ErrorBoundary>
+        <div style={{ position: 'relative' }} data-testid="HomeView">
+          <div
+            style={{
+              backgroundColor: 'rgb(21, 32, 43)',
+              width: '540px',
+              height: window.scrollY + window.innerHeight,
+              position: 'fixed',
+              zIndex: '-1',
+            }}
+          />
+          <Main.Header>
+            <Text color="white" large bolder enableCrop>
+              Home
+            </Text>
+          </Main.Header>
+          {home_timeline.length !== 0 ? (
+            <VirtualScroller
+              items={home_timeline}
+              getNewData={getNewHomeTimeline}
+              data-testid="VirtualScroller"
+            />
+          ) : null}
+        </div>
+      </ErrorBoundary>
+    );
+  }
 }
 
 HomeView.propTypes = propTypes;
 HomeView.defaultTypes = defaultProps;
 
 const mapStateToProps = state => ({
-	home_timeline: state.status.home_timeline,
+  home_timeline: state.status.home_timeline,
 });
 
 export default connect(
-	mapStateToProps,
-	{ getHomeTimeline, getNewHomeTimeline },
+  mapStateToProps,
+  { getHomeTimeline, getNewHomeTimeline },
 )(HomeView);

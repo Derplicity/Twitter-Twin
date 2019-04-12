@@ -5,25 +5,25 @@ import { findByTestId } from './testUtils';
 import Component from './App';
 
 const setUp = () => {
-	const enzymeWrapper = shallow(<Component />);
-	return {
-		enzymeWrapper,
-	};
+  const enzymeWrapper = shallow(<Component />);
+  return {
+    enzymeWrapper,
+  };
 };
 
 /* ********************
          APP
 ******************** */
 describe('<App />', () => {
-	let wrapper;
+  let wrapper;
 
-	beforeEach(() => {
-		const { enzymeWrapper } = setUp();
+  beforeEach(() => {
+    const { enzymeWrapper } = setUp();
 
-		wrapper = enzymeWrapper;
-	});
+    wrapper = enzymeWrapper;
+  });
 
-	it('should render without errors', () => {
-		expect(findByTestId(wrapper, 'App').length).toEqual(1);
-	});
+  it('should render without errors', () => {
+    expect(findByTestId(wrapper, 'App').length).toEqual(1);
+  });
 });

@@ -13,75 +13,75 @@ import Loading from '../presentational/Loading';
 import { Navbar } from '../styles';
 
 const propTypes = {
-	getCurrentUser: PropTypes.func,
-	user: PropTypes.object,
+  getCurrentUser: PropTypes.func,
+  user: PropTypes.object,
 };
 
 const defaultProps = {
-	getCurrentUser: () => null,
-	user: null,
+  getCurrentUser: () => null,
+  user: null,
 };
 
 export class NavbarContainer extends Component {
-	componentDidMount() {
-		this.props.getCurrentUser();
-	}
+  componentDidMount() {
+    this.props.getCurrentUser();
+  }
 
-	render() {
-		const { user } = this.props;
+  render() {
+    const { user } = this.props;
 
-		return (
-			<Navbar.Wrapper data-testid="NavbarContainer">
-				<Navbar role="navigation">
-					<Navbar.Nav left>
-						<NavItemPresentator
-							exact
-							to="/home"
-							icon={['fas', 'home']}
-							data-testid="NavItemPresentator"
-						/>
-						<NavItemPresentator
-							to="/explore"
-							icon={['fas', 'hashtag']}
-							data-testid="NavItemPresentator"
-						/>
-						<NavItemPresentator
-							to="/notifications"
-							icon={['fas', 'bell']}
-							data-testid="NavItemPresentator"
-						/>
-						<NavItemPresentator
-							to="/messages"
-							icon={['fas', 'envelope']}
-							data-testid="NavItemPresentator"
-						/>
-					</Navbar.Nav>
-					<Navbar.Search>
-						<ClickController data-testid="ClickController">
-							<SearchContainer data-testid="SearchContainer" />
-						</ClickController>
-					</Navbar.Search>
-					<Navbar.Nav right>
-						{user ? (
-							<NavDropdown user={user} data-testid="NavDropdown" />
-						) : (
-							<Loading data-testid="Loading" />
-						)}
-					</Navbar.Nav>
-				</Navbar>
-			</Navbar.Wrapper>
-		);
-	}
+    return (
+      <Navbar.Wrapper data-testid="NavbarContainer">
+        <Navbar role="navigation">
+          <Navbar.Nav left>
+            <NavItemPresentator
+              exact
+              to="/home"
+              icon={['fas', 'home']}
+              data-testid="NavItemPresentator"
+            />
+            <NavItemPresentator
+              to="/explore"
+              icon={['fas', 'hashtag']}
+              data-testid="NavItemPresentator"
+            />
+            <NavItemPresentator
+              to="/notifications"
+              icon={['fas', 'bell']}
+              data-testid="NavItemPresentator"
+            />
+            <NavItemPresentator
+              to="/messages"
+              icon={['fas', 'envelope']}
+              data-testid="NavItemPresentator"
+            />
+          </Navbar.Nav>
+          <Navbar.Search>
+            <ClickController data-testid="ClickController">
+              <SearchContainer data-testid="SearchContainer" />
+            </ClickController>
+          </Navbar.Search>
+          <Navbar.Nav right>
+            {user ? (
+              <NavDropdown user={user} data-testid="NavDropdown" />
+            ) : (
+              <Loading data-testid="Loading" />
+            )}
+          </Navbar.Nav>
+        </Navbar>
+      </Navbar.Wrapper>
+    );
+  }
 }
 
 NavbarContainer.propTypes = propTypes;
 NavbarContainer.defaultProps = defaultProps;
 
 const mapStateToProps = state => ({
-	user: state.user.user,
+  user: state.user.user,
 });
 
 export default connect(
-	mapStateToProps,
-	{ getCurrentUser },
+  mapStateToProps,
+  { getCurrentUser },
 )(NavbarContainer);

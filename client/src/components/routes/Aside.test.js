@@ -5,29 +5,29 @@ import { findByTestId } from '../../testUtils';
 import Component from './Aside';
 
 const setUp = () => {
-	const enzymeWrapper = shallow(<Component />);
-	return {
-		enzymeWrapper,
-	};
+  const enzymeWrapper = shallow(<Component />);
+  return {
+    enzymeWrapper,
+  };
 };
 
 /* ********************
      ASIDE ROUTES
 ******************** */
 describe('<AsideRoutes />', () => {
-	let wrapper;
+  let wrapper;
 
-	beforeEach(() => {
-		const { enzymeWrapper } = setUp();
+  beforeEach(() => {
+    const { enzymeWrapper } = setUp();
 
-		wrapper = enzymeWrapper;
-	});
+    wrapper = enzymeWrapper;
+  });
 
-	it('should render without errors', () => {
-		expect(findByTestId(wrapper, 'AsideRoutes').length).toEqual(1);
-	});
+  it('should render without errors', () => {
+    expect(findByTestId(wrapper, 'AsideRoutes').length).toEqual(1);
+  });
 
-	it('should render correct number of routes', () => {
-		expect(wrapper.find('Route').length).toEqual(1);
-	});
+  it('should render correct number of routes', () => {
+    expect(wrapper.find('Route').length).toEqual(1);
+  });
 });

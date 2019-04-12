@@ -6,8 +6,8 @@ import trendReducer from './trendReducer';
 import statusReducer from './statusReducer';
 
 export default combineReducers({
-	auth: authReducer,
-	user: userReducer,
-	trend: trendReducer,
-	status: statusReducer,
+  auth: authReducer,
+  user: userReducer,
+  trend: trendReducer,
+  status: statusReducer,
 });

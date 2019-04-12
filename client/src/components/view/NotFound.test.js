@@ -5,25 +5,25 @@ import { findByTestId } from '../../testUtils';
 import Component from './NotFound';
 
 const setUp = () => {
-	const enzymeWrapper = shallow(<Component />);
-	return {
-		enzymeWrapper,
-	};
+  const enzymeWrapper = shallow(<Component />);
+  return {
+    enzymeWrapper,
+  };
 };
 
 /* ********************
        NOT FOUND
 ******************** */
 describe('<NotFoundView />', () => {
-	let wrapper;
+  let wrapper;
 
-	beforeEach(() => {
-		const { enzymeWrapper } = setUp();
+  beforeEach(() => {
+    const { enzymeWrapper } = setUp();
 
-		wrapper = enzymeWrapper;
-	});
+    wrapper = enzymeWrapper;
+  });
 
-	it('should render without errors', () => {
-		expect(findByTestId(wrapper, 'NotFoundView').length).toEqual(1);
-	});
+  it('should render without errors', () => {
+    expect(findByTestId(wrapper, 'NotFoundView').length).toEqual(1);
+  });
 });

@@ -6,11 +6,11 @@ import storeConfig from './storeConfig';
 import Routes from './components/routes';
 
 export default function App() {
-	const store = storeConfig();
+  const store = storeConfig();
 
-	return (
-		<Provider store={store} data-testid="App">
-			<Routes />
-		</Provider>
-	);
+  return (
+    <Provider store={store} data-testid="App">
+      <Routes />
+    </Provider>
+  );
 }
