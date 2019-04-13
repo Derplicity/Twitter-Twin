@@ -5,16 +5,16 @@ import InfiniteScroll from 'react-infinite-scroller';
 import TweetContainer from '../container/Tweet';
 
 const propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object.isRequired),
-  getNewData: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
+  getNewData: PropTypes.func,
 };
 
 const defaultProps = {
-  items: [{}],
+  items: [],
   getNewData: () => null,
 };
 
-class VirtualScroller extends Component {
+export class VirtualScroller extends Component {
   constructor(props) {
     super(props);
 
@@ -157,10 +157,6 @@ class VirtualScroller extends Component {
       endIndex++;
     }
 
-    if (endIndex < Object.keys(items).length) {
-      endIndex++;
-    }
-
     let spaceBelowIdx = endIndex;
     let spaceBelow = 300;
 
@@ -212,6 +208,7 @@ class VirtualScroller extends Component {
           data={items[i]}
           calcItemHeight={this.calcItemHeight}
           key={items[i].id_str}
+          data-testid="TweetContainer"
         />,
       );
     }
@@ -223,8 +220,13 @@ class VirtualScroller extends Component {
           paddingTop: spaceAbove,
           paddingBottom: spaceBelow,
         }}
+        data-testid="VirtualScroller"
       >
-        <InfiniteScroll loadMore={this.loadItems} hasMore={hasMoreItems}>
+        <InfiniteScroll
+          loadMore={this.loadItems}
+          hasMore={hasMoreItems}
+          data-testid="InfiniteScroll"
+        >
           {itemFeed}
         </InfiniteScroll>
       </div>
