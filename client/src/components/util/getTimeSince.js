@@ -1,6 +1,6 @@
-export default function(date) {
+export default function(date, comparedTo) {
   const created_date = !!date ? new Date(date) : new Date();
-  const current_date = new Date();
+  const current_date = !!comparedTo ? new Date(comparedTo) : new Date();
 
   let timestamp = {};
 
@@ -56,7 +56,11 @@ export default function(date) {
     } else if (dif_minutes >= 1) {
       timestamp.since = `${dif_minutes}m`;
     } else {
-      timestamp.since = `${dif_seconds}s`;
+      if (dif_seconds < 0) {
+        timestamp.since = '0s';
+      } else {
+        timestamp.since = `${dif_seconds}s`;
+      }
     }
 
     return timestamp;
@@ -76,7 +80,11 @@ export default function(date) {
   } else if (dif_minutes >= 1) {
     timestamp.since = `${dif_minutes}m`;
   } else {
-    timestamp.since = `${dif_seconds}s`;
+    if (dif_seconds < 0) {
+      timestamp.since = '0s';
+    } else {
+      timestamp.since = `${dif_seconds}s`;
+    }
   }
 
   return timestamp;
