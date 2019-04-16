@@ -2,55 +2,12 @@ import React from 'react';
 
 import Text from '../styles/Text';
 
-function convertUnicodeIndices(text, entities, indicesInUTF16) {
-  if (entities.length === 0) {
-    return;
+export default function formatTweet(tweetData) {
+  if (!tweetData || Object.keys(tweetData).length === 0) {
+    return null;
   }
 
-  let charIndex = 0;
-  let codePointIndex = 0;
-
-  // sort entities by start index
-  entities.sort(function(a, b) {
-    return a.indices[0] - b.indices[0];
-  });
-  let entityIndex = 0;
-  let entity = entities[0];
-
-  while (charIndex < text.length) {
-    if (entity.indices[0] === (indicesInUTF16 ? charIndex : codePointIndex)) {
-      const len = entity.indices[1] - entity.indices[0];
-      entity.indices[0] = indicesInUTF16 ? codePointIndex : charIndex;
-      entity.indices[1] = entity.indices[0] + len;
-
-      entityIndex++;
-      if (entityIndex === entities.length) {
-        break;
-      }
-      entity = entities[entityIndex];
-    }
-
-    let c = text.charCodeAt(charIndex);
-    if (c >= 0xd800 && c <= 0xdbff && charIndex < text.length - 1) {
-      c = text.charCodeAt(charIndex + 1);
-      if (c >= 0xdc00 && c <= 0xdfff) {
-        charIndex++;
-      }
-    }
-    codePointIndex++;
-    charIndex++;
-  }
-}
-
-export default function(tweetData) {
   let tweet = tweetData;
-
-  if (Object.keys(tweet).length === 0) {
-    tweet = {
-      full_text: '',
-      entities: {},
-    };
-  }
 
   let json = tweet.retweeted_status
     ? tweet.retweeted_status.entities
@@ -82,7 +39,10 @@ export default function(tweetData) {
     entities = entities.concat(json[key]);
   }
 
-  convertUnicodeIndices(text, entities, false);
+  // sort entities by start index
+  entities.sort(function(a, b) {
+    return a.indices[0] - b.indices[0];
+  });
 
   let result = [];
 
@@ -108,11 +68,12 @@ export default function(tweetData) {
     if (entity.hashtag) {
       result.push(
         <Text.InternalLink
-          to={`/search/q=%23${entity.hashtag}`}
+          to={`/search?q=%23${entity.hashtag}`}
           key={`${entity.hashtag}${i}`}
           inline="true"
+          data-testid="hashtagLink"
         >
-          <Text color="blue" decor>
+          <Text color="blue" decor data-testid="hashtag">
             &#35;{entity.hashtag}
           </Text>
         </Text.InternalLink>,
@@ -123,8 +84,9 @@ export default function(tweetData) {
           to={`/${entity.screenName}`}
           key={`${entity.screenName}${i}`}
           inline="true"
+          data-testid="userMentionLink"
         >
-          <Text color="blue" decor>
+          <Text color="blue" decor data-testid="userMention">
             &#64;{entity.screenName}
           </Text>
         </Text.InternalLink>,
@@ -135,8 +97,9 @@ export default function(tweetData) {
           to={`/search?q=%24${entity.cashtag}`}
           key={`${entity.cashtag}${i}`}
           inline="true"
+          data-testid="cashtagLink"
         >
-          <Text color="blue" decor>
+          <Text color="blue" decor data-testid="cashtag">
             &#36;{entity.cashtag}
           </Text>
         </Text.InternalLink>,
@@ -149,8 +112,9 @@ export default function(tweetData) {
           target="_blank"
           rel="noopener noreferrer"
           inline="true"
+          data-testid="urlLink"
         >
-          <Text color="blue" decor>
+          <Text color="blue" decor data-testid="url">
             {entity.display_url}
           </Text>
         </Text.ExternalLink>,
