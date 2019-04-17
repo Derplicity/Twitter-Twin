@@ -15,7 +15,7 @@ const setUp = (props = {}) => {
 /* ********************
     SEARCH CONTAINER
 ******************** */
-describe('<NavbarContainer />', () => {
+describe('<SearchContainer />', () => {
   /* ********************
       CHECK PROPTYPES
   ******************** */
