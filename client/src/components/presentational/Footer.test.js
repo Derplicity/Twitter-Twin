@@ -1,28 +1,27 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Footer from './Footer';
-
 import { findByTestId } from '../../testUtils';
 
+import { FooterPresentator as Component } from './Footer';
+
 const setUp = (props = {}) => {
-  const component = shallow(<Footer {...props} />);
-  return component;
+  const wrapper = shallow(<Component {...props} />);
+  return wrapper;
 };
 
 describe('<Footer>', () => {
-  let component;
+  let wrapper;
 
   beforeEach(() => {
-    component = setUp();
+    wrapper = setUp();
   });
 
   it('should render without errors', () => {
-    const wrapper = findByTestId(component, 'footerComponent');
-    expect(wrapper.length).toBe(1);
+    expect(findByTestId(wrapper, 'FooterPresentator').length).toBe(1);
   });
 
   it('should render all links', () => {
-    const links = findByTestId(component, 'footerLink');
+    const links = findByTestId(wrapper, 'footerLink');
     expect(links.length).toBe(4);
   });
 });
