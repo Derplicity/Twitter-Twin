@@ -1,187 +1,149 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { findByTestId, checkProps } from '../../testUtils';
-import UserCell from './UserCell';
+
+import { UserCellPresentator as Component } from './UserCell';
 
 const setUp = (props = {}) => {
-  const component = shallow(<UserCell {...props} />);
-  return component;
+  const enzymeWrapper = shallow(<Component {...props} />);
+  return {
+    props,
+    enzymeWrapper,
+  };
 };
 
-describe('<UserCell>', () => {
+/* ********************
+   USER CELL PRESENTATOR
+******************** */
+describe('<UserCellPresentator />', () => {
+  /* ********************
+      CHECK PROPTYPES
+  ******************** */
   describe('Check PropTypes', () => {
     it('should not throw a warning', () => {
       const expectedProps = {
         user: {
-          name: 'John',
-          screen_name: 'johnsmith',
+          name: 'test_name',
+          screen_name: 'test_screen_name',
           verified: false,
-          profile_image_url_https:
-            'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
+          profile_image_url_https: 'https://via.placeholder.com/150',
         },
         onUserClick: jest.fn(),
         onFollowClick: jest.fn(),
       };
 
-      expect(checkProps(UserCell, expectedProps)).toBeUndefined();
+      expect(checkProps(Component, expectedProps)).toBeUndefined();
     });
   });
 
-  describe('With Valid Props', () => {
-    let component;
-    let onUserClickMock;
-    let onFollowClickMock;
+  /* ********************
+         COMPONENT
+  ******************** */
+  describe('Component', () => {
+    let wrapper;
+    let passedProps;
 
     beforeEach(() => {
-      onUserClickMock = jest.fn();
-      onFollowClickMock = jest.fn();
-      const props = {
+      const initialProps = {
         user: {
-          name: 'John',
-          screen_name: 'johnsmith',
-          verified: true,
-          profile_image_url_https:
-            'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
+          name: 'test_name',
+          screen_name: 'test_screen_name',
+          verified: false,
+          profile_image_url_https: 'https://via.placeholder.com/150',
         },
-        onUserClick: onUserClickMock,
-        onFollowClick: onFollowClickMock,
+        onUserClick: jest.fn(),
+        onFollowClick: jest.fn(),
       };
-      component = setUp(props);
+
+      const { enzymeWrapper, props } = setUp(initialProps);
+
+      wrapper = enzymeWrapper;
+      passedProps = props;
     });
 
-    it('should render without errors', () => {
-      const wrapper = findByTestId(component, 'userCellComponent');
-      expect(wrapper.length).toBe(1);
-    });
-
-    it('should render link wrapper', () => {
-      const linkWrapper = findByTestId(component, 'userCellLinkWrapper');
-      expect(linkWrapper.length).toBe(1);
-    });
-
-    it('should render image', () => {
-      const image = findByTestId(component, 'userCellImage');
-      expect(image.length).toBe(1);
-    });
-
-    it('should render link', () => {
-      const link = findByTestId(component, 'userCellLink');
-      expect(link.length).toBe(1);
-    });
-
-    it('should render button', () => {
-      const button = findByTestId(component, 'userCellButton');
-      expect(button.length).toBe(1);
-    });
-
-    describe('Link Wrapper', () => {
-      it('should emit a click event', () => {
-        const linkWrapper = findByTestId(component, 'userCellLinkWrapper');
-
-        linkWrapper.simulate('click');
-        expect(onUserClickMock.mock.calls.length).toEqual(1);
+    /* ********************
+             RENDER
+    ******************** */
+    describe('render()', () => {
+      it('should render without errors', () => {
+        expect(findByTestId(wrapper, 'UserCellPresentator').length).toEqual(1);
       });
-    });
 
-    describe('Button', () => {
-      it('should emit a click event', () => {
-        const button = findByTestId(component, 'userCellButton');
+      it('should not render if user prop is not present', () => {
+        wrapper.setProps({ user: null });
 
+        expect(findByTestId(wrapper, 'UserCellPresentator').length).toEqual(0);
+      });
+
+      it('should render with correct props', () => {
+        const link = findByTestId(wrapper, 'wrapperLink');
+
+        // Exists
+        expect(link.length).toEqual(1);
+
+        // Click handler calles correct function with param
+        expect(passedProps.onUserClick).toHaveBeenCalledTimes(0);
+        link.simulate('click');
+        expect(passedProps.onUserClick).toHaveBeenCalledTimes(1);
+      });
+
+      it('should render user image with correct props', () => {
+        const image = findByTestId(wrapper, 'userImage');
+        const props = image.props();
+        const user = passedProps.user;
+
+        // Exists with props
+        expect(image.length).toEqual(1);
+        expect(props.to).toEqual(`/${user.screen_name}`);
+        expect(props.src).toEqual(user.profile_image_url_https);
+        expect(props.alt).toEqual(user.name);
+      });
+
+      it('should render user link with correct props', () => {
+        const link = findByTestId(wrapper, 'userLink');
+        const props = link.props();
+
+        expect(link.length).toEqual(1);
+        expect(props.to).toEqual(`/${passedProps.user.screen_name}`);
+      });
+
+      it('should render user name with correct text', () => {
+        const name = findByTestId(wrapper, 'userName');
+
+        expect(name.length).toEqual(1);
+        expect(name.text()).toEqual(passedProps.user.name);
+      });
+
+      it('should render verified icon based on props', () => {
+        const verified = () => findByTestId(wrapper, 'verified');
+
+        expect(verified().length).toEqual(0);
+
+        const props = passedProps;
+        passedProps.user.verified = true;
+        wrapper.setProps(props);
+
+        expect(verified().length).toEqual(1);
+      });
+
+      it('should render username with correct text', () => {
+        const username = findByTestId(wrapper, 'userUsername');
+
+        expect(username.length).toEqual(1);
+        expect(username.text()).toEqual(`@${passedProps.user.screen_name}`);
+      });
+
+      it('should render user button with correct props', () => {
+        const button = findByTestId(wrapper, 'followButton');
+
+        // Exists
+        expect(button.length).toEqual(1);
+
+        // Click handler calles correct function with param
+        expect(passedProps.onFollowClick).toHaveBeenCalledTimes(0);
         button.simulate('click');
-        expect(onFollowClickMock.mock.calls.length).toEqual(1);
+        expect(passedProps.onFollowClick).toHaveBeenCalledTimes(1);
       });
-    });
-
-    describe('Is Verified', () => {
-      beforeEach(() => {
-        const props = {
-          user: {
-            name: 'John',
-            screen_name: 'johnsmith',
-            verified: true,
-            profile_image_url_https:
-              'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-          },
-          onUserClick: jest.fn(),
-          onFollowClick: jest.fn(),
-        };
-        component = setUp(props);
-      });
-
-      it('should be verified', () => {
-        const verified = findByTestId(component, 'userCellVerified');
-        expect(verified.length).toBe(1);
-      });
-    });
-
-    describe('Is Not Verified', () => {
-      beforeEach(() => {
-        const props = {
-          user: {
-            name: 'John',
-            screen_name: 'johnsmith',
-            verified: false,
-            profile_image_url_https:
-              'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-          },
-          onUserClick: jest.fn(),
-          onFollowClick: jest.fn(),
-        };
-        component = setUp(props);
-      });
-
-      it('should not be verified', () => {
-        const verified = findByTestId(component, 'userCellVerified');
-        expect(verified.length).toBe(0);
-      });
-    });
-  });
-
-  describe('With Invalid Props', () => {
-    let component;
-
-    beforeEach(() => {
-      const props = {
-        user: null,
-        onUserClick: jest.fn(),
-        onFollowClick: jest.fn(),
-      };
-      component = setUp(props);
-    });
-
-    it('should not render', () => {
-      const wrapper = findByTestId(component, 'userCellComponent');
-      expect(wrapper.length).toBe(0);
-    });
-  });
-
-  describe('Without Props', () => {
-    let component;
-
-    beforeEach(() => {
-      component = setUp();
-    });
-
-    it('should not render', () => {
-      const wrapper = findByTestId(component, 'userCellComponent');
-      expect(wrapper.length).toBe(0);
-    });
-
-    it('should render when props arrive', () => {
-      component.setProps({
-        user: {
-          name: 'John',
-          screen_name: 'johnsmith',
-          verified: true,
-          profile_image_url_https:
-            'http://www.stleos.uq.edu.au/wp-content/uploads/2016/08/image-placeholder-350x350.png',
-        },
-        onUserClick: jest.fn(),
-        onFollowClick: jest.fn(),
-      });
-
-      const wrapper = findByTestId(component, 'userCellComponent');
-      expect(wrapper.length).toBe(1);
     });
   });
 });
