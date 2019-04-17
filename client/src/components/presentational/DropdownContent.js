@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import MenuItem from './MenuItem';
+import MenuItem from '../container/MenuItem';
 import ProfileSection from './ProfileSection';
 
 import {
