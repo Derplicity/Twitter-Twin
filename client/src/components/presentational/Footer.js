@@ -2,14 +2,14 @@ import React from 'react';
 
 import { Footer, Text } from '../styles';
 
-export default function() {
+export function FooterPresentator() {
   const itemStyle = {
     paddingRight: '15px',
     margin: '5px 0',
   };
 
   return (
-    <Footer.Wrapper data-testid="footerComponent">
+    <Footer.Wrapper data-testid="FooterPresentator">
       <Footer role="contentinfo">
         <Text.ExternalLink
           href="https://twitter.com/tos"
@@ -54,3 +54,5 @@ export default function() {
     </Footer.Wrapper>
   );
 }
+
+export default FooterPresentator;
