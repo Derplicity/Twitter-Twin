@@ -22,11 +22,9 @@ const defaultProps = {
   onFollowClick: () => null,
 };
 
-export default function UserCellPresentator({
-  user,
-  onUserClick,
-  onFollowClick,
-}) {
+export function UserCellPresentator(props) {
+  const { user, onUserClick, onFollowClick } = props;
+
   if (!user) return null;
 
   const name = user.name;
@@ -39,9 +37,9 @@ export default function UserCellPresentator({
     <UserCell.Interactive
       transitionto="blueGrey__light"
       onClick={e => onUserClick(e, url)}
-      data-testid="userCellLinkWrapper"
+      data-testid="wrapperLink"
     >
-      <UserCell.Wrapper data-testid="userCellComponent">
+      <UserCell.Wrapper data-testid="UserCellPresentator">
         <UserCell>
           <UserCell.Image>
             <Image
@@ -50,18 +48,20 @@ export default function UserCellPresentator({
               alt={name}
               isCircle
               isSmall
-              data-testid="userCellImage"
+              data-testid="userImage"
             />
           </UserCell.Image>
           <UserCell.Content>
             <UserCell.Header>
-              <Text.InternalLink
-                to={url}
-                inline="true"
-                data-testid="userCellLink"
-              >
+              <Text.InternalLink to={url} inline="true" data-testid="userLink">
                 <Text.Group>
-                  <Text enableCrop bold decor color="white">
+                  <Text
+                    enableCrop
+                    bold
+                    decor
+                    color="white"
+                    data-testid="userName"
+                  >
                     {name}
                   </Text>
                   {isVerified && (
@@ -70,13 +70,13 @@ export default function UserCellPresentator({
                         marginLeft: '2px',
                       }}
                       small
-                      data-testid="userCellVerified"
+                      data-testid="verified"
                     >
                       <Icon icon={['fas', 'check-circle']} color="white" />
                     </Icon.Wrapper>
                   )}
                 </Text.Group>
-                <Text enableCrop color="grey">
+                <Text enableCrop color="grey" data-testid="userUsername">
                   @{username}
                 </Text>
               </Text.InternalLink>
@@ -84,7 +84,7 @@ export default function UserCellPresentator({
             <UserCell.Button>
               <Button.Wrapper
                 onClick={onFollowClick}
-                data-testid="userCellButton"
+                data-testid="followButton"
               >
                 <Button>
                   <Text bold color="blue" enableCrop>
@@ -102,3 +102,5 @@ export default function UserCellPresentator({
 
 UserCellPresentator.propTypes = propTypes;
 UserCellPresentator.defaultProps = defaultProps;
+
+export default UserCellPresentator;
