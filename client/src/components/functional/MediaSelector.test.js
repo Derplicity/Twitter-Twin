@@ -138,8 +138,8 @@ describe('<MediaSelector />', () => {
       expect(wrapper.children().length).toEqual(0);
     });
 
-    it('should return <TweetVideoPresentator /> if all conditions are met', () => {
-      const tweetVideo = () => findByTestId(wrapper, 'TweetVideoPresentator');
+    it('should return <TweetVideoContainer /> if all conditions are met', () => {
+      const tweetVideo = () => findByTestId(wrapper, 'TweetVideoContainer');
 
       // Should render with correct props
       expect(tweetVideo().length).toEqual(1);
