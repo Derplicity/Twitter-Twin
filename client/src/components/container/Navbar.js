@@ -7,7 +7,7 @@ import SearchContainer from './Search';
 import ClickController from '../functional/ClickController';
 
 import NavItemPresentator from '../presentational/NavItem';
-import NavDropdown from '../presentational/NavDropdown';
+import NavDropdown from './NavDropdown';
 import Loading from '../presentational/Loading';
 
 import { Navbar } from '../styles';
