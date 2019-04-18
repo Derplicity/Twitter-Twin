@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TweetVideoPresentator from '../presentational/TweetVideo';
+import TweetVideoPresentator from '../container/TweetVideo';
 import ImagePresentator from '../presentational/Image';
 
 import { Video, LinkCard, Media } from '../styles';
