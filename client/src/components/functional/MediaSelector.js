@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import TweetVideoPresentator from '../container/TweetVideo';
+import TweetVideoContainer from '../container/TweetVideo';
 import ImagePresentator from '../presentational/Image';
 
 import { Video, LinkCard, Media } from '../styles';
@@ -92,12 +92,12 @@ export function MediaSelector({ entities, extended_entities }) {
     return (
       <Media.Wrapper>
         <Video.Wrapper style={{ paddingBottom: `${ratio}%` }}>
-          <TweetVideoPresentator
+          <TweetVideoContainer
             media_url={media_url}
             media_type={media_type}
             content_url={content_url}
             content_type={content_type}
-            data-testid="TweetVideoPresentator"
+            data-testid="TweetVideoContainer"
           />
         </Video.Wrapper>
       </Media.Wrapper>
