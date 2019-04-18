@@ -12,17 +12,21 @@ const propTypes = {
 const defaultProps = {
   exact: false,
   to: '/',
-  icon: ['fas', 'home'],
+  icon: null,
 };
 
-function NavItemPresentator({ exact, to, icon }) {
+export function NavItemPresentator(props) {
+  const { exact, to, icon } = props;
+
+  if (!icon) return;
+
   return (
-    <NavItem.Wrapper>
-      <NavItem.InternalLink exact={exact} to={to}>
+    <NavItem.Wrapper data-testid="NavItemPresentator">
+      <NavItem.InternalLink exact={exact} to={to} data-testid="link">
         <NavItem tabIndex="-1">
           <Icon.Wrapper large>
             <Icon.Bubble tabIndex="-1" />
-            <Icon icon={icon} color="grey" />
+            <Icon icon={icon} color="grey" data-testid="icon" />
           </Icon.Wrapper>
         </NavItem>
       </NavItem.InternalLink>
