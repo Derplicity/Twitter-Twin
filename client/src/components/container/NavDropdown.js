@@ -17,6 +17,8 @@ const propTypes = {
     name: PropTypes.string.isRequired,
     screen_name: PropTypes.string.isRequired,
     profile_image_url_https: PropTypes.string.isRequired,
+    friends_count_formatted: PropTypes.string.isRequired,
+    followers_count_formatted: PropTypes.string.isRequired,
   }),
 };
 
