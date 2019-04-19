@@ -15,7 +15,14 @@ const propTypes = {
   getTrends: PropTypes.func,
   startClickListen: PropTypes.func,
   stopClickListen: PropTypes.func,
-  users: PropTypes.array,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      id_str: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      screen_name: PropTypes.string.isRequired,
+      following: PropTypes.bool.isRequired,
+    }),
+  ),
   trends: PropTypes.array,
   isOutside: PropTypes.bool,
 };
