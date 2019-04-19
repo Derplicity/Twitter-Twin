@@ -14,7 +14,10 @@ import { Navbar } from '../styles';
 
 const propTypes = {
   getCurrentUser: PropTypes.func,
-  user: PropTypes.object,
+  user: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    profile_image_url_https: PropTypes.string.isRequired,
+  }),
 };
 
 const defaultProps = {
