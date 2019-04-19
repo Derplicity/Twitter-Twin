@@ -26,6 +26,8 @@ describe('<NavDropdownContainer />', () => {
           name: 'test',
           screen_name: 'test2',
           profile_image_url_https: 'https://test.com/image',
+          friends_count_formatted: '100K',
+          followers_count_formatted: '20M',
         },
       };
 
@@ -46,6 +48,8 @@ describe('<NavDropdownContainer />', () => {
           name: 'test',
           screen_name: 'test2',
           profile_image_url_https: 'https://test.com/image',
+          friends_count_formatted: '100K',
+          followers_count_formatted: '20M',
         },
       };
 
