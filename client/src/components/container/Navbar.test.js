@@ -81,15 +81,15 @@ describe('<NavbarContainer />', () => {
         expect(findByTestId(wrapper, 'SearchContainer').length).toEqual(1);
       });
 
-      it('should render <NavDropdown /> / <Loading /> based on props', () => {
+      it('should render <NavDropdownContainer /> / <Loading /> based on props', () => {
         // No user -> should render loading
         wrapper.setProps({ user: null });
-        expect(findByTestId(wrapper, 'NavDropdown').length).toEqual(0);
+        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(0);
         expect(findByTestId(wrapper, 'Loading').length).toEqual(1);
 
         // With user -> should render navDropdown
         wrapper.setProps({ user: { id_str: '0123456789' } });
-        expect(findByTestId(wrapper, 'NavDropdown').length).toEqual(1);
+        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(1);
         expect(findByTestId(wrapper, 'Loading').length).toEqual(0);
       });
     });
