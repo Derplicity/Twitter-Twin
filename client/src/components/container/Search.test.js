@@ -27,10 +27,14 @@ describe('<SearchContainer />', () => {
             id_str: '0123456789',
             name: 'test',
             screen_name: 'test2',
-            following: false,
           },
         ],
-        trends: [{ id_str: '1234567890' }],
+        trends: [
+          {
+            name: 'test',
+            query: 'test2',
+          },
+        ],
         isOutside: false,
         getUsers: jest.fn(),
         getTrends: jest.fn(),
@@ -56,10 +60,14 @@ describe('<SearchContainer />', () => {
             id_str: '0123456789',
             name: 'test',
             screen_name: 'test2',
-            following: false,
           },
         ],
-        trends: [{ id_str: '1234567890' }],
+        trends: [
+          {
+            name: 'test',
+            query: 'test2',
+          },
+        ],
         isOutside: false,
         getUsers: jest.fn(),
         getTrends: jest.fn(),
