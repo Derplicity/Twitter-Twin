@@ -7,7 +7,7 @@ import SearchContainer from './Search';
 import ClickController from '../functional/ClickController';
 
 import NavItemPresentator from '../presentational/NavItem';
-import NavDropdown from './NavDropdown';
+import NavDropdownContainer from './NavDropdown';
 import Loading from '../presentational/Loading';
 
 import { Navbar } from '../styles';
@@ -63,7 +63,10 @@ export class NavbarContainer extends Component {
           </Navbar.Search>
           <Navbar.Nav right>
             {user ? (
-              <NavDropdown user={user} data-testid="NavDropdown" />
+              <NavDropdownContainer
+                user={user}
+                data-testid="NavDropdownContainer"
+              />
             ) : (
               <Loading data-testid="Loading" />
             )}
