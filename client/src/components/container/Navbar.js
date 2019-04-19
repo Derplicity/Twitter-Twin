@@ -16,6 +16,7 @@ const propTypes = {
   getCurrentUser: PropTypes.func,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
+    screen_name: PropTypes.string.isRequired,
     profile_image_url_https: PropTypes.string.isRequired,
   }),
 };
