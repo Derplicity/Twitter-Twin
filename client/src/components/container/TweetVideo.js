@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -18,7 +19,21 @@ import {
   VideoControlsText,
 } from '../styled-components';
 
-class TweetVideo extends Component {
+const propTypes = {
+  media_url: PropTypes.string,
+  media_type: PropTypes.string,
+  content_url: PropTypes.string,
+  content_type: PropTypes.string,
+};
+
+const defaultProps = {
+  media_url: 'https://via.placeholder.com/720x720',
+  media_type: 'video',
+  content_url: null,
+  content_type: 'mp4',
+};
+
+export class TweetVideoContainer extends Component {
   state = {
     supportsVideo: false,
     supportsFullScreen: false,
@@ -285,6 +300,8 @@ class TweetVideo extends Component {
     } = this.state;
     const { media_url, media_type, content_url, content_type } = this.props;
 
+    if (!content_url) return null;
+
     return (
       <VisibilitySensor
         partialVisibility
@@ -295,6 +312,7 @@ class TweetVideo extends Component {
           ref={node => (this.videoContainer = node)}
           onMouseOver={this.handleMouseOver}
           onMouseOut={this.handleMouseOut}
+          data-testid="TweetVideoContainer"
         >
           <TweetVideoFrame
             ref={node => (this.video = node)}
@@ -394,4 +412,7 @@ class TweetVideo extends Component {
   }
 }
 
-export default TweetVideo;
+TweetVideoContainer.propTypes = propTypes;
+TweetVideoContainer.defaultProps = defaultProps;
+
+export default TweetVideoContainer;
