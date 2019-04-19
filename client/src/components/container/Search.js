@@ -20,10 +20,14 @@ const propTypes = {
       id_str: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       screen_name: PropTypes.string.isRequired,
-      following: PropTypes.bool.isRequired,
     }),
   ),
-  trends: PropTypes.array,
+  trends: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      query: PropTypes.string.isRequired,
+    }),
+  ),
   isOutside: PropTypes.bool,
 };
 
