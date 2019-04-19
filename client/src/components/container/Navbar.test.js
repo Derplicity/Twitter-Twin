@@ -22,7 +22,10 @@ describe('<NavbarContainer />', () => {
   describe('Check PropTypes', () => {
     it('should not throw a warning', () => {
       const expectedProps = {
-        user: { id_str: '0123456789' },
+        user: {
+          name: 'test',
+          profile_image_url_https: 'https://test.com/image',
+        },
         getCurrentUser: jest.fn(),
       };
 
@@ -39,7 +42,10 @@ describe('<NavbarContainer />', () => {
 
     beforeEach(() => {
       const initialProps = {
-        user: { id_str: '0123456789' },
+        user: {
+          name: 'test',
+          profile_image_url_https: 'https://test.com/image',
+        },
         getCurrentUser: jest.fn(),
       };
 
@@ -88,7 +94,12 @@ describe('<NavbarContainer />', () => {
         expect(findByTestId(wrapper, 'Loading').length).toEqual(1);
 
         // With user -> should render navDropdown
-        wrapper.setProps({ user: { id_str: '0123456789' } });
+        wrapper.setProps({
+          user: {
+            name: 'test',
+            profile_image_url_https: 'https://test.com/image',
+          },
+        });
         expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(1);
         expect(findByTestId(wrapper, 'Loading').length).toEqual(0);
       });
