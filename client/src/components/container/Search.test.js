@@ -22,7 +22,14 @@ describe('<SearchContainer />', () => {
   describe('Check PropTypes', () => {
     it('should not throw a warning', () => {
       const expectedProps = {
-        users: [{ id_str: '0123456789' }],
+        users: [
+          {
+            id_str: '0123456789',
+            name: 'test',
+            screen_name: 'test2',
+            following: false,
+          },
+        ],
         trends: [{ id_str: '1234567890' }],
         isOutside: false,
         getUsers: jest.fn(),
@@ -44,7 +51,14 @@ describe('<SearchContainer />', () => {
 
     beforeEach(() => {
       const initialProps = {
-        users: [{ id_str: '0123456789' }],
+        users: [
+          {
+            id_str: '0123456789',
+            name: 'test',
+            screen_name: 'test2',
+            following: false,
+          },
+        ],
         trends: [{ id_str: '1234567890' }],
         isOutside: false,
         getUsers: jest.fn(),
