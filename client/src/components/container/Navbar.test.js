@@ -24,6 +24,7 @@ describe('<NavbarContainer />', () => {
       const expectedProps = {
         user: {
           name: 'test',
+          screen_name: 'test2',
           profile_image_url_https: 'https://test.com/image',
         },
         getCurrentUser: jest.fn(),
@@ -44,6 +45,7 @@ describe('<NavbarContainer />', () => {
       const initialProps = {
         user: {
           name: 'test',
+          screen_name: 'test2',
           profile_image_url_https: 'https://test.com/image',
         },
         getCurrentUser: jest.fn(),
@@ -88,20 +90,14 @@ describe('<NavbarContainer />', () => {
       });
 
       it('should render <NavDropdownContainer /> / <Loading /> based on props', () => {
+        // With user -> should render navDropdown
+        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(1);
+        expect(findByTestId(wrapper, 'Loading').length).toEqual(0);
+
         // No user -> should render loading
         wrapper.setProps({ user: null });
         expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(0);
         expect(findByTestId(wrapper, 'Loading').length).toEqual(1);
-
-        // With user -> should render navDropdown
-        wrapper.setProps({
-          user: {
-            name: 'test',
-            profile_image_url_https: 'https://test.com/image',
-          },
-        });
-        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(1);
-        expect(findByTestId(wrapper, 'Loading').length).toEqual(0);
       });
     });
   });
