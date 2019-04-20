@@ -20,6 +20,7 @@ const propTypes = {
       id_str: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       screen_name: PropTypes.string.isRequired,
+      profile_image_url_https: PropTypes.string.isRequired,
     }),
   ),
   trends: PropTypes.arrayOf(
