@@ -27,6 +27,7 @@ describe('<SearchContainer />', () => {
             id_str: '0123456789',
             name: 'test',
             screen_name: 'test2',
+            profile_image_url_https: 'https://test.com/image',
           },
         ],
         trends: [
@@ -60,6 +61,7 @@ describe('<SearchContainer />', () => {
             id_str: '0123456789',
             name: 'test',
             screen_name: 'test2',
+            profile_image_url_https: 'https://test.com/image',
           },
         ],
         trends: [
