@@ -59,7 +59,7 @@ describe('<ActionStyles />', () => {
 
     /* ********************
            RENDER
-  ******************** */
+    ******************** */
     describe('render()', () => {
       it('should render without errors', () => {
         expect(wrapper.exists()).toBeTruthy();
