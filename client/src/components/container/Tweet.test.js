@@ -10,8 +10,11 @@ import formatTweet from '../util/formatTweet';
 jest.mock('../util/getTimeSince');
 jest.mock('../util/formatTweet');
 
-getTimeSince.mockImplementation(() => '4m');
-formatTweet.mockImplementation(() => 'this is a tweet');
+getTimeSince.mockImplementation(() => ({
+  createdStr: '12:58 PM • Jan 16, 1998',
+  since: '4m',
+}));
+formatTweet.mockImplementation(() => [<span>this is a tweet</span>]);
 
 const setUp = (props = {}) => {
   const enzymeWrapper = shallow(<Component {...props} />);
