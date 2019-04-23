@@ -32,9 +32,9 @@ const Nav = styled.ul`
   align-items: center;
   white-space: nowrap;
   margin: ${props =>
-    props.left ? '0 20px 0 0' : props.right ? '0 0 0 20px' : null};
-  min-width: ${props => (props.left ? '360px' : null)};
-  max-width: ${props => (props.right ? '100%' : null)};
+    props.left ? '0 20px 0 0' : props.right ? '0 0 0 20px' : 'inherit'};
+  min-width: ${props => (props.left ? '360px' : 'inherit')};
+  max-width: ${props => (props.right ? '100%' : 'inherit')};
 `;
 
 const Search = styled.div`
