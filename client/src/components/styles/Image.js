@@ -31,7 +31,7 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: ${props => `url('${props.url}')`};
+  background-image: ${props => (props.url ? `url('${props.url}')` : 'none')};
   background-size: cover;
   background-color: rgba(0, 0, 0, 0);
 `;
