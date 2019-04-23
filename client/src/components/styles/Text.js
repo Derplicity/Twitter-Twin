@@ -7,10 +7,17 @@ const Text = styled.div`
   display: inline;
   max-width: 100%;
   pointer-events: inherit;
-  text-align: ${props => (props.center ? 'center' : null)};
-  font-weight: ${props => (props.bold ? 'bold' : props.bolder ? '800' : null)};
+  text-align: ${props => (props.center ? 'center' : 'inherit')};
+  font-weight: ${props =>
+    props.bold ? 'bold' : props.bolder ? '800' : 'inherit'};
   font-size: ${props =>
-    props.small ? '12px' : props.large ? '19px' : props.xlarge ? '23px' : null};
+    props.small
+      ? '12px'
+      : props.large
+      ? '19px'
+      : props.xlarge
+      ? '23px'
+      : 'inherit'};
   color: ${props =>
     props.color === 'grey'
       ? 'rgb(136, 153, 166)'
@@ -66,7 +73,7 @@ const Interactive = styled.div`
 
   &:hover {
     color: ${props =>
-      props.transitionto === 'blue' ? 'rgb(27, 149, 224)' : null};
+      props.transitionto === 'blue' ? 'rgb(27, 149, 224)' : 'inherit'};
   }
 `;
 
