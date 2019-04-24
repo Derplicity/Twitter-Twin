@@ -81,6 +81,7 @@ describe('<TextStyles />', () => {
         const expectedWeights = {
           bold: 'bold',
           bolder: '800',
+          lessbold: '600',
         };
 
         // Try each font weight prop
