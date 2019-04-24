@@ -12,6 +12,7 @@ import Main from './Main';
 import Media from './Media';
 import MenuItem from './MenuItem';
 import Navbar from './Navbar';
+import NavDropdown from './NavDropdown';
 import NavItem from './NavItem';
 import NotFound from './NotFound';
 import Search from './Search';
@@ -37,6 +38,7 @@ export {
   Media,
   MenuItem,
   Navbar,
+  NavDropdown,
   NavItem,
   NotFound,
   Search,
