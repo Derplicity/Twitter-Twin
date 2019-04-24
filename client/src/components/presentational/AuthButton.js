@@ -1,13 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {
-  Wrapper,
-  Container,
-  ButtonWrapper,
-  Button,
-} from '../styled-components';
+import { AuthButton, Icon } from '../styles';
 
 const propTypes = {
   onClick: PropTypes.func,
@@ -23,19 +17,15 @@ export function AuthButtonPresentator(props) {
   const { onClick, disabled } = props;
 
   return (
-    <Wrapper data-testid="AuthButtonPresentator">
-      <Container>
-        <ButtonWrapper>
-          <Button
-            onClick={onClick}
-            disabled={disabled}
-            data-testid="authButton"
-          >
-            <FontAwesomeIcon icon={['fab', 'twitter']} />
-          </Button>
-        </ButtonWrapper>
-      </Container>
-    </Wrapper>
+    <AuthButton.Wrapper data-testid="AuthButtonPresentator">
+      <AuthButton
+        onClick={onClick}
+        disabled={disabled}
+        data-testid="authButton"
+      >
+        <Icon color="white" icon={['fab', 'twitter']} />
+      </AuthButton>
+    </AuthButton.Wrapper>
   );
 }
 
