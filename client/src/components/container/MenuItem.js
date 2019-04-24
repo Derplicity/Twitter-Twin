@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import {
-  MenuItemWrapper,
-  MenuLink,
-  LinkIcon,
-  LinkHeader,
-  MenuSwitch,
-  MenuSwitchLabel,
-  MenuSwitchInput,
-  MenuSwitchSlider,
-} from '../styled-components';
+import { MenuItem, Icon, Text, Switch } from '../styles';
 
 const propTypes = {
   exact: PropTypes.bool,
@@ -55,24 +45,26 @@ export class MenuItemContainer extends Component {
     if (!header) return null;
 
     return (
-      <MenuItemWrapper data-testid="MenuItemContainer">
-        <MenuLink
+      <MenuItem.Wrapper data-testid="MenuItemContainer">
+        <MenuItem.InternalLink
           exact={exact}
           to={to}
           onClick={onClick}
           data-testid="menuLink"
         >
           {icon ? (
-            <LinkIcon>
-              <FontAwesomeIcon icon={icon} data-testid="menuIcon" />
-            </LinkIcon>
+            <Icon.Wrapper>
+              <Icon icon={icon} color="grey" data-testid="menuIcon" />
+            </Icon.Wrapper>
           ) : null}
-          <LinkHeader data-testid="header">{header}</LinkHeader>
-        </MenuLink>
+          <Text color="white" data-testid="header">
+            {header}
+          </Text>
+        </MenuItem.InternalLink>
         {hasToggle && (
-          <MenuSwitch>
-            <MenuSwitchLabel>
-              <MenuSwitchInput
+          <Switch>
+            <Switch.Label>
+              <Switch.Input
                 type="checkbox"
                 checked={isChecked}
                 onChange={this.handleCheck}
@@ -81,11 +73,11 @@ export class MenuItemContainer extends Component {
                 }
                 data-testid="switchInput"
               />
-              <MenuSwitchSlider />
-            </MenuSwitchLabel>
-          </MenuSwitch>
+              <Switch.Slider />
+            </Switch.Label>
+          </Switch>
         )}
-      </MenuItemWrapper>
+      </MenuItem.Wrapper>
     );
   }
 }
