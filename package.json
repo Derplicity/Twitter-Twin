@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\""
+    "dev": "concurrently \"cd client && yarn start\" \"cd server && yarn start\"",
+    "client-test": "cd client && yarn test"
   }
 }
