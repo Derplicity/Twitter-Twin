@@ -1,5 +1,6 @@
 import Action from './Action';
 import Aside from './Aside';
+import AuthButton from './AuthButton';
 import Body from './Body';
 import Button from './Button';
 import Footer from './Footer';
@@ -26,6 +27,7 @@ import Video from './Video';
 export {
   Action,
   Aside,
+  AuthButton,
   Body,
   Button,
   Footer,
