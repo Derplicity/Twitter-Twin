@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import DropdownContentPresentator from '../presentational/DropdownContent';
+import Image from '../presentational/Image';
 
-import {
-  NavDropdownWrapper,
-  NavDropdownLink,
-  NavDropdownDrop,
-  NavUserImg,
-  NavUserName,
-} from '../styled-components';
+import { NavDropdown, Text, Icon } from '../styles';
 
 const propTypes = {
   user: PropTypes.shape({
@@ -74,8 +68,8 @@ export class NavDropdownContainer extends Component {
     if (!user) return null;
 
     return (
-      <NavDropdownWrapper data-testid="NavDropdownContainer">
-        <NavDropdownLink
+      <NavDropdown.Wrapper data-testid="NavDropdownContainer">
+        <NavDropdown.Button
           role="button"
           tabIndex="0"
           onClick={this.handleDrop}
@@ -84,16 +78,24 @@ export class NavDropdownContainer extends Component {
           }
           data-testid="dropLink"
         >
-          <NavDropdownDrop tabIndex="-1">
-            <NavUserImg
-              src={user.profile_image_url_https}
-              alt="Profile"
-              data-testid="profileImage"
-            />
-            <NavUserName data-testid="profileName">{user.name}</NavUserName>{' '}
-            <FontAwesomeIcon icon={['fas', 'caret-down']} />
-          </NavDropdownDrop>
-        </NavDropdownLink>
+          <NavDropdown.Group tabIndex="-1">
+            <NavDropdown.Image>
+              <Image
+                src={user.profile_image_url_https}
+                alt="Profile"
+                isCircle
+                isSmall
+                data-testid="profileImage"
+              />
+            </NavDropdown.Image>
+            <NavDropdown.Content>
+              <Text color="white" lessbold data-testid="profileName">
+                {user.name}
+              </Text>{' '}
+              <Icon color="grey" icon={['fas', 'caret-down']} />
+            </NavDropdown.Content>
+          </NavDropdown.Group>
+        </NavDropdown.Button>
         <DropdownContentPresentator
           isDropped={isDropped}
           setNode={node => (this.node = node)}
@@ -101,7 +103,7 @@ export class NavDropdownContainer extends Component {
           user={user}
           data-testid="DropdownContentPresentator"
         />
-      </NavDropdownWrapper>
+      </NavDropdown.Wrapper>
     );
   }
 }
