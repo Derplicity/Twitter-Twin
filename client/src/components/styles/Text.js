@@ -9,7 +9,13 @@ const Text = styled.div`
   pointer-events: inherit;
   text-align: ${props => (props.center ? 'center' : 'inherit')};
   font-weight: ${props =>
-    props.bold ? 'bold' : props.bolder ? '800' : 'inherit'};
+    props.bold
+      ? 'bold'
+      : props.bolder
+      ? '800'
+      : props.lessbold
+      ? '600'
+      : 'inherit'};
   font-size: ${props =>
     props.small
       ? '12px'
