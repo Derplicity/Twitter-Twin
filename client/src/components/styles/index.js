@@ -10,10 +10,12 @@ import Image from './Image';
 import LinkCard from './LinkCard';
 import Main from './Main';
 import Media from './Media';
+import MenuItem from './MenuItem';
 import Navbar from './Navbar';
 import NavItem from './NavItem';
 import NotFound from './NotFound';
 import Search from './Search';
+import Switch from './Switch';
 import Text from './Text';
 import Tweet from './Tweet';
 import UserCell from './UserCell';
@@ -33,10 +35,12 @@ export {
   LinkCard,
   Main,
   Media,
+  MenuItem,
   Navbar,
   NavItem,
   NotFound,
   Search,
+  Switch,
   Text,
   Tweet,
   UserCell,
