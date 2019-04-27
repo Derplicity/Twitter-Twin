@@ -23,7 +23,7 @@ describe('<DropdownContentPresentator />', () => {
   describe('Check PropTypes', () => {
     it('should not throw a warning', () => {
       const expectedProps = {
-        isDropped: true,
+        isOpen: true,
         user: {
           name: 'test',
           screen_name: 'test2',
@@ -32,7 +32,8 @@ describe('<DropdownContentPresentator />', () => {
           followers_count_formatted: '20M',
         },
         setNode: jest.fn(),
-        handleDrop: jest.fn(),
+        handleClose: jest.fn(),
+        setClickContainer: jest.fn(),
       };
 
       expect(checkProps(Component, expectedProps)).toBeUndefined();
@@ -48,7 +49,7 @@ describe('<DropdownContentPresentator />', () => {
 
     beforeEach(() => {
       const initialProps = {
-        isDropped: true,
+        isOpen: true,
         user: {
           name: 'test',
           screen_name: 'test2',
@@ -57,7 +58,8 @@ describe('<DropdownContentPresentator />', () => {
           followers_count_formatted: '20M',
         },
         setNode: jest.fn(),
-        handleDrop: jest.fn(),
+        handleClose: jest.fn(),
+        setClickContainer: jest.fn(),
       };
 
       const { enzymeWrapper, props } = setUp(initialProps);
@@ -90,7 +92,7 @@ describe('<DropdownContentPresentator />', () => {
 
         // Renders with props
         expect(backdrop.length).toEqual(1);
-        expect(props.isDropped).toEqual(passedProps.isDropped);
+        expect(props.isOpen).toEqual(passedProps.isOpen);
       });
 
       it('should render a close button with correct props', () => {
@@ -100,22 +102,22 @@ describe('<DropdownContentPresentator />', () => {
         expect(button.length).toEqual(1);
 
         // Click handler calls correct function
-        expect(passedProps.handleDrop).toHaveBeenCalledTimes(0);
+        expect(passedProps.handleClose).toHaveBeenCalledTimes(0);
         button.simulate('click');
-        expect(passedProps.handleDrop).toHaveBeenCalledTimes(1);
+        expect(passedProps.handleClose).toHaveBeenCalledTimes(1);
 
         // Keydown handler calls correct functon on correct keys
         // keydown !== 13 && !shiftKey -> no call
         button.simulate('keydown', { keyCode: 12 });
-        expect(passedProps.handleDrop).toHaveBeenCalledTimes(1);
+        expect(passedProps.handleClose).toHaveBeenCalledTimes(1);
 
         // keydown === 13 && shiftKey -> no call
         button.simulate('keydown', { keyCode: 13, shiftKey: true });
-        expect(passedProps.handleDrop).toHaveBeenCalledTimes(1);
+        expect(passedProps.handleClose).toHaveBeenCalledTimes(1);
 
         // keydown === 13 && !shiftKey -> call
         button.simulate('keydown', { keyCode: 13 });
-        expect(passedProps.handleDrop).toHaveBeenCalledTimes(2);
+        expect(passedProps.handleClose).toHaveBeenCalledTimes(2);
       });
 
       it('should render <ProfileSectionPresentator /> with correct props', () => {
@@ -128,7 +130,7 @@ describe('<DropdownContentPresentator />', () => {
         // Renders with props
         expect(profileSection.length).toEqual(1);
         expect(props.user).toEqual(passedProps.user);
-        expect(props.onClick).toEqual(passedProps.handleDrop);
+        expect(props.onClick).toEqual(passedProps.handleClose);
       });
 
       it('should render correct number of menu items with correct props', () => {
@@ -144,7 +146,7 @@ describe('<DropdownContentPresentator />', () => {
         // Check all click handlers call correct function
         menuItems.forEach((item, i) => {
           item.simulate('click');
-          expect(passedProps.handleDrop).toHaveBeenCalledTimes(i + 1);
+          expect(passedProps.handleClose).toHaveBeenCalledTimes(i + 1);
         });
       });
     });
