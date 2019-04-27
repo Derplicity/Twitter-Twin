@@ -1,20 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import MenuItem from '../container/MenuItem';
 import ProfileSection from './ProfileSection';
 
-import {
-  DropdownBackdrop,
-  DropdownContainer,
-  DropdownHeader,
-  DropdownClose,
-  LinkIcon,
-  ItemLinkActive,
-  DropdownMenu,
-  Separator,
-} from '../styled-components';
+import { DropdownContent, Text, Icon } from '../styles';
 
 const propTypes = {
   isOpen: PropTypes.bool,
@@ -44,14 +34,16 @@ export function DropdownContentPresentator(props) {
   if (!user) return null;
 
   return (
-    <DropdownBackdrop isOpen={isOpen} data-testid="backdrop">
-      <DropdownContainer
+    <DropdownContent.Backdrop isOpen={isOpen} data-testid="backdrop">
+      <DropdownContent.Wrapper
         ref={setClickContainer}
         data-testid="DropdownContentPresentator"
       >
-        <DropdownHeader>
-          <h2>Account info</h2>
-          <DropdownClose
+        <DropdownContent.Header>
+          <Text bolder large enableCrop color="white">
+            Account info
+          </Text>
+          <DropdownContent.Close
             role="button"
             tabIndex="0"
             onClick={handleClose}
@@ -60,14 +52,15 @@ export function DropdownContentPresentator(props) {
             }
             data-testid="closeButton"
           >
-            <ItemLinkActive tabIndex="-1">
-              <LinkIcon inverse>
-                <FontAwesomeIcon icon={['fas', 'times']} />
-              </LinkIcon>
-            </ItemLinkActive>
-          </DropdownClose>
-        </DropdownHeader>
-        <DropdownMenu id="drop-menu">
+            <DropdownContent.TabBlock tabIndex="-1">
+              <Icon.Wrapper large tabIndex="-1">
+                <Icon.Bubble transitionto="blueGrey__lighter" tabIndex="-1" />
+                <Icon icon={['fas', 'times']} color="blue" tabIndex="-1" />
+              </Icon.Wrapper>
+            </DropdownContent.TabBlock>
+          </DropdownContent.Close>
+        </DropdownContent.Header>
+        <DropdownContent.Menu id="drop-menu">
           <ProfileSection
             user={user}
             onClick={handleClose}
@@ -109,7 +102,7 @@ export function DropdownContentPresentator(props) {
             onClick={handleClose}
             data-testid="menuItem"
           />
-          <Separator />
+          <DropdownContent.Separator />
           <MenuItem
             exact={false}
             to="/promote-mode"
@@ -137,7 +130,7 @@ export function DropdownContentPresentator(props) {
             onClick={handleClose}
             data-testid="menuItem"
           />
-          <Separator />
+          <DropdownContent.Separator />
           <MenuItem
             exact={false}
             to="/settings-and-privacy"
@@ -186,7 +179,7 @@ export function DropdownContentPresentator(props) {
             onClick={handleClose}
             data-testid="menuItem"
           />
-          <Separator transparent />
+          <DropdownContent.Separator transparent />
           <MenuItem
             exact={false}
             to="/data-saver"
@@ -203,9 +196,9 @@ export function DropdownContentPresentator(props) {
             onClick={handleClose}
             data-testid="menuItem"
           />
-        </DropdownMenu>
-      </DropdownContainer>
-    </DropdownBackdrop>
+        </DropdownContent.Menu>
+      </DropdownContent.Wrapper>
+    </DropdownContent.Backdrop>
   );
 }
 
