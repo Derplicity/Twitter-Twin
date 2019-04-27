@@ -41,6 +41,7 @@ describe('<SearchContainer />', () => {
         getTrends: jest.fn(),
         startClickListen: jest.fn(),
         stopClickListen: jest.fn(),
+        setClickContainer: jest.fn(),
       };
 
       expect(checkProps(Component, expectedProps)).toBeUndefined();
@@ -75,6 +76,7 @@ describe('<SearchContainer />', () => {
         getTrends: jest.fn(),
         startClickListen: jest.fn(),
         stopClickListen: jest.fn(),
+        setClickContainer: jest.fn(),
 
         history: [],
       };
