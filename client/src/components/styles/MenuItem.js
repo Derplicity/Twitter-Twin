@@ -24,6 +24,7 @@ const InternalLink = styled(NavLink)`
   ${globals};
   ${flexParent};
   ${flexChild};
+  ${interactive};
 
   width: 100%;
   align-items: center;
