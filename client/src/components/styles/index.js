@@ -3,6 +3,7 @@ import Aside from './Aside';
 import AuthButton from './AuthButton';
 import Body from './Body';
 import Button from './Button';
+import DropdownContent from './DropdownContent';
 import Footer from './Footer';
 import Hat from './Hat';
 import Header from './Header';
@@ -30,6 +31,7 @@ export {
   AuthButton,
   Body,
   Button,
+  DropdownContent,
   Footer,
   Hat,
   Header,
