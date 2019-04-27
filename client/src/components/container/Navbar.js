@@ -69,10 +69,12 @@ export class NavbarContainer extends Component {
           </Navbar.Search>
           <Navbar.Nav right>
             {user ? (
-              <NavDropdownContainer
-                user={user}
-                data-testid="NavDropdownContainer"
-              />
+              <ClickController data-testid="ClickController">
+                <NavDropdownContainer
+                  user={user}
+                  data-testid="NavDropdownContainer"
+                />
+              </ClickController>
             ) : (
               <Loading data-testid="Loading" />
             )}
