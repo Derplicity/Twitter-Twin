@@ -17,9 +17,10 @@ import {
 } from '../styled-components';
 
 const propTypes = {
-  isDropped: PropTypes.bool,
+  isOpen: PropTypes.bool,
   setNode: PropTypes.func,
-  handleDrop: PropTypes.func,
+  handleClose: PropTypes.func,
+  setClickContainer: PropTypes.func,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
     screen_name: PropTypes.string.isRequired,
@@ -30,21 +31,22 @@ const propTypes = {
 };
 
 const defaultProps = {
-  isDropped: false,
+  isOpen: false,
   user: null,
   setNode: () => null,
-  handleDrop: () => null,
+  handleClose: () => null,
+  setClickContainer: () => null,
 };
 
 export function DropdownContentPresentator(props) {
-  const { isDropped, setNode, handleDrop, user } = props;
+  const { isOpen, setNode, handleClose, user, setClickContainer } = props;
 
   if (!user) return null;
 
   return (
-    <DropdownBackdrop isDropped={isDropped} data-testid="backdrop">
+    <DropdownBackdrop isOpen={isOpen} data-testid="backdrop">
       <DropdownContainer
-        ref={node => setNode(node)}
+        ref={setClickContainer}
         data-testid="DropdownContentPresentator"
       >
         <DropdownHeader>
@@ -52,9 +54,9 @@ export function DropdownContentPresentator(props) {
           <DropdownClose
             role="button"
             tabIndex="0"
-            onClick={handleDrop}
+            onClick={handleClose}
             onKeyDown={e =>
-              e.keyCode === 13 && !e.shiftKey ? handleDrop() : null
+              e.keyCode === 13 && !e.shiftKey ? handleClose() : null
             }
             data-testid="closeButton"
           >
@@ -68,7 +70,7 @@ export function DropdownContentPresentator(props) {
         <DropdownMenu id="drop-menu">
           <ProfileSection
             user={user}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="ProfileSectionPresentator"
           />
           <MenuItem
@@ -77,7 +79,7 @@ export function DropdownContentPresentator(props) {
             icon={['far', 'user']}
             header="Profile"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -86,7 +88,7 @@ export function DropdownContentPresentator(props) {
             icon={['far', 'list-alt']}
             header="Lists"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -95,7 +97,7 @@ export function DropdownContentPresentator(props) {
             icon={['far', 'bookmark']}
             header="Bookmarks"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -104,7 +106,7 @@ export function DropdownContentPresentator(props) {
             icon={['fas', 'bolt']}
             header="Moments"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <Separator />
@@ -114,7 +116,7 @@ export function DropdownContentPresentator(props) {
             icon={['fab', 'react']}
             header="Promote Mode"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -123,7 +125,7 @@ export function DropdownContentPresentator(props) {
             icon={['fas', 'share-square']}
             header="Twitter Ads"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -132,7 +134,7 @@ export function DropdownContentPresentator(props) {
             icon={['far', 'chart-bar']}
             header="Analytics"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <Separator />
@@ -141,7 +143,7 @@ export function DropdownContentPresentator(props) {
             to="/settings-and-privacy"
             header="Settings and privacy"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -149,7 +151,7 @@ export function DropdownContentPresentator(props) {
             to="/help-center"
             header="Help Center"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -157,7 +159,7 @@ export function DropdownContentPresentator(props) {
             to="/log-out"
             header="Log out"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -165,7 +167,7 @@ export function DropdownContentPresentator(props) {
             to="/send-feedback"
             header="Send feedback"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -173,7 +175,7 @@ export function DropdownContentPresentator(props) {
             to="/switch-to-legacy-twitter"
             header="Switch to legacy Twitter"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -181,7 +183,7 @@ export function DropdownContentPresentator(props) {
             to="/settings-and-privacy"
             header="Settings and privacy"
             hasToggle={false}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <Separator transparent />
@@ -190,7 +192,7 @@ export function DropdownContentPresentator(props) {
             to="/data-saver"
             header="Data saver"
             hasToggle={true}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
           <MenuItem
@@ -198,7 +200,7 @@ export function DropdownContentPresentator(props) {
             to="/night-mode"
             header="Night mode"
             hasToggle={true}
-            onClick={handleDrop}
+            onClick={handleClose}
             data-testid="menuItem"
           />
         </DropdownMenu>
