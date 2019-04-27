@@ -22,6 +22,9 @@ describe('<NavDropdownContainer />', () => {
   describe('Check PropTypes', () => {
     it('should not throw a warning', () => {
       const expectedProps = {
+        setClickContainer: jest.fn(),
+        startClickListen: jest.fn(),
+        stopClickListen: jest.fn(),
         user: {
           name: 'test',
           screen_name: 'test2',
@@ -29,6 +32,7 @@ describe('<NavDropdownContainer />', () => {
           friends_count_formatted: '100K',
           followers_count_formatted: '20M',
         },
+        isOutside: false,
       };
 
       expect(checkProps(Component, expectedProps)).toBeUndefined();
@@ -44,6 +48,9 @@ describe('<NavDropdownContainer />', () => {
 
     beforeEach(() => {
       const initialProps = {
+        setClickContainer: jest.fn(),
+        startClickListen: jest.fn(),
+        stopClickListen: jest.fn(),
         user: {
           name: 'test',
           screen_name: 'test2',
@@ -51,6 +58,7 @@ describe('<NavDropdownContainer />', () => {
           friends_count_formatted: '100K',
           followers_count_formatted: '20M',
         },
+        isOutside: false,
       };
 
       const { enzymeWrapper, props } = setUp(initialProps);
@@ -65,7 +73,7 @@ describe('<NavDropdownContainer />', () => {
     describe('constructor()', () => {
       it('should set state', () => {
         const expectedState = {
-          isDropped: false,
+          isOpen: false,
         };
 
         expect(wrapper.state()).toEqual(expectedState);
@@ -73,83 +81,47 @@ describe('<NavDropdownContainer />', () => {
     });
 
     /* ********************
-     COMPONENT WILL UNMOUNT
+      COMPONENT DID UPDATE
     ******************** */
-    describe('componentWillUnmount()', () => {
-      it('should remove mousedown event listener', () => {
-        const removeEventListener = (document.removeEventListener = jest.fn());
-        const handleClick = wrapper.instance().handleClick;
+    describe('componentDidUpdate()', () => {
+      it('should alter state if props changed', () => {
+        let prevProps = { isOutside: false };
 
-        wrapper.instance().componentWillUnmount();
-        expect(removeEventListener).toHaveBeenCalledTimes(1);
-        expect(removeEventListener).toHaveBeenCalledWith(
-          'mousedown',
-          handleClick,
-          false,
-        );
+        wrapper.setState({ isOpen: true });
+
+        // Props did not change -> no state change
+        wrapper.setProps(prevProps);
+        wrapper.instance().componentDidUpdate(prevProps);
+        expect(wrapper.state().isOpen).toBeTruthy();
+
+        wrapper.setState({ isOpen: false });
+
+        // Props did not change -> no state change
+        wrapper.setProps(prevProps);
+        wrapper.instance().componentDidUpdate(prevProps);
+        expect(wrapper.state().isOpen).toBeFalsy();
+
+        // Props changed -> state change
+        wrapper.setProps({ isOutside: true });
+        wrapper.instance().componentDidUpdate(prevProps);
+        expect(wrapper.state().isOpen).toBeFalsy();
+
+        prevProps = { isOutside: true };
+
+        // Props changed -> state change
+        wrapper.setProps({ isOutside: false });
+        wrapper.instance().componentDidUpdate(prevProps);
+        expect(wrapper.state().isOpen).toBeTruthy();
       });
     });
 
     /* ********************
-          HANDLE CLICK
+          HANDLE OPEN
     ******************** */
-    describe('handleClick()', () => {
-      it('should call handleClickOutside() if condition is met', () => {
-        wrapper.instance().node = shallow(
-          <div>
-            <span />
-          </div>,
-        );
-
-        let e = {
-          target: <span />,
-        };
-
-        // Node contains e.target -> return null
-        expect(wrapper.instance().handleClick(e)).toBeNull();
-
-        const handleClickOutside = (wrapper.instance().handleClickOutside = jest.fn());
-
-        e = {
-          target: <input />,
-        };
-
-        // Node does not contain e.target -> call handleClickOutside()
-        wrapper.instance().handleClick(e);
-        expect(handleClickOutside).toHaveBeenCalledTimes(1);
-      });
-    });
-
-    /* ********************
-      HANDLE CLICK OUTSIDE
-    ******************** */
-    describe('handleClickOutside()', () => {
-      it('should close dropdown and remove mousedown listener', () => {
-        const removeEventListener = (document.removeEventListener = jest.fn());
-        const handleClick = wrapper.instance().handleClick;
-
-        wrapper.setState({ isDropped: true });
-
-        wrapper.instance().handleClickOutside();
-        expect(wrapper.state().isDropped).toBeFalsy();
-        expect(removeEventListener).toHaveBeenCalledTimes(1);
-        expect(removeEventListener).toHaveBeenCalledWith(
-          'mousedown',
-          handleClick,
-          false,
-        );
-      });
-    });
-
-    /* ********************
-          HANDLE DROP
-    ******************** */
-    describe('handleDrop()', () => {
-      it('should alternate isDropped', () => {
-        const handleDrop = wrapper.instance().handleDrop;
-        const isDropped = () => wrapper.state().isDropped;
-        const addEventListener = (document.addEventListener = jest.fn());
-        const handleClick = wrapper.instance().handleClick;
+    describe('handleOpen()', () => {
+      it('should set state, scroll to top of list, and start listening for click', () => {
+        const startClickListen = () =>
+          passedProps.startClickListen.mock.calls.length;
 
         // Create fake dropMenu
         const dropMenu = document.createElement('div');
@@ -161,32 +133,35 @@ describe('<NavDropdownContainer />', () => {
           return dropMenu;
         }));
 
-        // !isDropped -> isDropped
-        wrapper.setState({ isDropped: false });
+        wrapper.setState({ isOpen: false });
 
-        handleDrop();
-        expect(isDropped()).toBeTruthy();
+        expect(wrapper.state().isOpen).toBeFalsy();
+        expect(startClickListen()).toEqual(0);
+        expect(getElementById).toHaveBeenCalledTimes(0);
+        wrapper.instance().handleOpen();
+        expect(wrapper.state().isOpen).toBeTruthy();
+        expect(startClickListen()).toEqual(1);
         expect(getElementById).toHaveBeenCalledTimes(1);
         expect(getElementById).toHaveBeenCalledWith('drop-menu');
-        expect(getElementById('drop-menu').scrollTop).toEqual(0); // getElementById calls = 2
-        expect(addEventListener).toHaveBeenCalledTimes(1);
-        expect(addEventListener).toHaveBeenCalledWith(
-          'mousedown',
-          handleClick,
-          false,
-        );
-
-        // isDropped -> !isDropped
-        wrapper.setState({ isDropped: true });
-
-        // Reset scrollTop
-        dropMenu.scrollTop = 100;
-
-        handleDrop();
-        expect(isDropped()).toBeFalsy();
-        expect(getElementById).toHaveBeenCalledTimes(3);
-        expect(getElementById).toHaveBeenCalledWith('drop-menu');
         expect(getElementById('drop-menu').scrollTop).toEqual(0);
+      });
+    });
+
+    /* ********************
+        HANDLE CLOSE
+    ******************** */
+    describe('handleClose()', () => {
+      it('should set state and stop listening for click', () => {
+        const stopClickListen = () =>
+          passedProps.stopClickListen.mock.calls.length;
+
+        wrapper.setState({ isOpen: true });
+
+        expect(wrapper.state().isOpen).toBeTruthy();
+        expect(stopClickListen()).toEqual(0);
+        wrapper.instance().handleClose();
+        expect(wrapper.state().isOpen).toBeFalsy();
+        expect(stopClickListen()).toEqual(1);
       });
     });
 
@@ -204,22 +179,22 @@ describe('<NavDropdownContainer />', () => {
 
         // Renders with props
         expect(dropLink.length).toEqual(1);
-        expect(props.onClick).toEqual(wrapper.instance().handleDrop);
+        expect(props.onClick).toEqual(wrapper.instance().handleOpen);
 
         // Check onKeyDown handler
-        const handleDrop = (wrapper.instance().handleDrop = jest.fn());
+        const handleOpen = (wrapper.instance().handleOpen = jest.fn());
 
         // keyCode !== 13 && !shiftKey -> no call
         dropLink.simulate('keydown', { keyCode: 12 });
-        expect(handleDrop).toHaveBeenCalledTimes(0);
+        expect(handleOpen).toHaveBeenCalledTimes(0);
 
         // keyCode === 13 && shiftKey -> no call
         dropLink.simulate('keydown', { keyCode: 13, shiftKey: true });
-        expect(handleDrop).toHaveBeenCalledTimes(0);
+        expect(handleOpen).toHaveBeenCalledTimes(0);
 
         // keyCode === 13 && !shiftKey -> call
         dropLink.simulate('keydown', { keyCode: 13 });
-        expect(handleDrop).toHaveBeenCalledTimes(1);
+        expect(handleOpen).toHaveBeenCalledTimes(1);
       });
 
       it('should render a profile image with correct props', () => {
@@ -248,8 +223,8 @@ describe('<NavDropdownContainer />', () => {
 
         // Renders with props
         expect(dropdownContent.length).toEqual(1);
-        expect(props.isDropped).toEqual(wrapper.state().isDropped);
-        expect(props.handleDrop).toEqual(wrapper.instance().handleDrop);
+        expect(props.isOpen).toEqual(wrapper.state().isOpen);
+        expect(props.handleClose).toEqual(wrapper.instance().handleClose);
         expect(props.user).toEqual(passedProps.user);
 
         // Check set node function
