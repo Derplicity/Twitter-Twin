@@ -7,6 +7,9 @@ import Image from '../presentational/Image';
 import { NavDropdown, Text, Icon } from '../styles';
 
 const propTypes = {
+  setClickContainer: PropTypes.func,
+  startClickListen: PropTypes.func,
+  stopClickListen: PropTypes.func,
   user: PropTypes.shape({
     name: PropTypes.string.isRequired,
     screen_name: PropTypes.string.isRequired,
@@ -14,10 +17,15 @@ const propTypes = {
     friends_count_formatted: PropTypes.string.isRequired,
     followers_count_formatted: PropTypes.string.isRequired,
   }),
+  isOutside: PropTypes.bool,
 };
 
 const defaultProps = {
+  setClickContainer: () => null,
+  startClickListen: () => null,
+  stopClickListen: () => null,
   user: null,
+  isOutside: false,
 };
 
 export class NavDropdownContainer extends Component {
@@ -25,45 +33,46 @@ export class NavDropdownContainer extends Component {
     super(props);
 
     this.state = {
-      isDropped: false,
+      isOpen: false,
     };
 
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClickOutside = this.handleClickOutside.bind(this);
-    this.handleDrop = this.handleDrop.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleClick(e) {
-    if (this.node.contains(e.target)) {
-      return null;
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { isOutside } = this.props;
+    if (isOutside !== prevProps.isOutside) {
+      this.setState({
+        isOpen: !isOutside,
+      });
     }
-    this.handleClickOutside();
   }
 
-  handleClickOutside() {
-    this.setState({
-      isDropped: false,
-    });
-    document.removeEventListener('mousedown', this.handleClick, false);
-  }
-
-  handleDrop() {
+  handleOpen() {
     this.setState(
       {
-        isDropped: !this.state.isDropped,
+        isOpen: true,
       },
-      () => (document.getElementById('drop-menu').scrollTop = 0),
+      () => {
+        document.getElementById('drop-menu').scrollTop = 0;
+        this.props.startClickListen();
+      },
     );
-    document.addEventListener('mousedown', this.handleClick, false);
+  }
+
+  handleClose() {
+    this.setState(
+      {
+        isOpen: false,
+      },
+      () => this.props.stopClickListen(),
+    );
   }
 
   render() {
-    const { user } = this.props;
-    const { isDropped } = this.state;
+    const { user, setClickContainer } = this.props;
+    const { isOpen } = this.state;
 
     if (!user) return null;
 
@@ -72,9 +81,9 @@ export class NavDropdownContainer extends Component {
         <NavDropdown.Button
           role="button"
           tabIndex="0"
-          onClick={this.handleDrop}
+          onClick={this.handleOpen}
           onKeyDown={e =>
-            e.keyCode === 13 && !e.shiftKey ? this.handleDrop() : null
+            e.keyCode === 13 && !e.shiftKey ? this.handleOpen() : null
           }
           data-testid="dropLink"
         >
@@ -97,9 +106,10 @@ export class NavDropdownContainer extends Component {
           </NavDropdown.Group>
         </NavDropdown.Button>
         <DropdownContentPresentator
-          isDropped={isDropped}
+          isOpen={isOpen}
+          setClickContainer={setClickContainer}
           setNode={node => (this.node = node)}
-          handleDrop={this.handleDrop}
+          handleClose={this.handleClose}
           user={user}
           data-testid="DropdownContentPresentator"
         />
