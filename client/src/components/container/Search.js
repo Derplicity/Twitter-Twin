@@ -13,6 +13,7 @@ import { Search, Icon } from '../styles';
 const propTypes = {
   getUsers: PropTypes.func,
   getTrends: PropTypes.func,
+  setClickContainer: PropTypes.func,
   startClickListen: PropTypes.func,
   stopClickListen: PropTypes.func,
   users: PropTypes.arrayOf(
@@ -35,6 +36,7 @@ const propTypes = {
 const defaultProps = {
   getUsers: () => null,
   getTrends: () => null,
+  setClickContainer: () => null,
   startClickListen: () => null,
   stopClickListen: () => null,
   users: null,
