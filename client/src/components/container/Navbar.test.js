@@ -89,19 +89,28 @@ describe('<NavbarContainer />', () => {
       });
 
       it('should render <SearchContainer /> with a <ClickController />', () => {
-        expect(findByTestId(wrapper, 'ClickController').length).toEqual(1);
-        expect(findByTestId(wrapper, 'SearchContainer').length).toEqual(1);
+        const search = findByTestId(wrapper, 'SearchContainer');
+        const click = findByTestId(search.parent(), 'ClickController');
+
+        expect(search.length).toEqual(1);
+        expect(click.length).toEqual(1);
       });
 
-      it('should render <NavDropdownContainer /> / <Loading /> based on props', () => {
-        // With user -> should render navDropdown
-        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(1);
-        expect(findByTestId(wrapper, 'Loading').length).toEqual(0);
+      it('should render <NavDropdownContainer /> with a <ClickController />, or <Loading /> based on props', () => {
+        const navDropdown = () => findByTestId(wrapper, 'NavDropdownContainer');
+        const click = () =>
+          findByTestId(navDropdown().parent(), 'ClickController');
+        const loading = () => findByTestId(wrapper, 'Loading');
+
+        // With user -> should render navDropdown with clickController
+        expect(navDropdown().length).toEqual(1);
+        expect(click().length).toEqual(1);
+        expect(loading().length).toEqual(0);
 
         // No user -> should render loading
         wrapper.setProps({ user: null });
-        expect(findByTestId(wrapper, 'NavDropdownContainer').length).toEqual(0);
-        expect(findByTestId(wrapper, 'Loading').length).toEqual(1);
+        expect(navDropdown().length).toEqual(0);
+        expect(loading().length).toEqual(1);
       });
     });
   });
