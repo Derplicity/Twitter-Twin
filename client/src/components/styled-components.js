@@ -159,7 +159,7 @@ export const DotSpacer = styled.span`
 `;
 
 export const DropdownBackdrop = styled.div`
-  display: ${props => (props.isDropped ? 'block' : 'none')};
+  display: ${props => (props.isOpen ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
