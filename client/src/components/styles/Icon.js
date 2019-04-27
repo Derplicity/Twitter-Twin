@@ -15,6 +15,8 @@ const Icon = styled(FontAwesomeIcon)`
       ? 'rgb(224, 36, 94)'
       : props.color === 'green'
       ? 'rgb(23, 191, 99)'
+      : props.color === 'blue'
+      ? 'rgb(29, 161, 242)'
       : 'inherit'};
   user-select: none;
 `;
