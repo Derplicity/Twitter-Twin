@@ -9,7 +9,10 @@ export default function MainRoutes() {
   return (
     <Switch data-testid="MainRoutes">
       <Route exact path="/home" component={HomeView} />
-      <Route exact path="/:username" component={UserView} />
+      <Route path="/explore" component={NotFoundView} />
+      <Route path="/notifications" component={NotFoundView} />
+      <Route path="/messages" component={NotFoundView} />
+      <Route path="/:username" component={UserView} />
       <Route component={NotFoundView} />
     </Switch>
   );
